@@ -31,125 +31,140 @@ mt19937 rng(rd());
 template<typename T, typename U> inline int randint(T lo, U hi) { return uniform_int_distribution<int>((int)lo, (int)hi)(rng); } // [lo,hi]
 template<typename T> inline T randel(vector<T>& v) { return v[uniform_int_distribution<int>(int(0), int(v.size()) - int(1))(rng)]; } // [lo,hi]
 
+const int mod = 1e9+7;
 struct Mod {
 	typedef int T;
-    T val, mod;
-    Mod(T val = 0, T mod = 1e9+7) : val(val%mod), mod(mod) {}
+    T val;
+    Mod(T val = 0) : val(val%mod) {}
 
-    Mod operator+(Mod y) {return Mod(val+y.val, mod);}
-    Mod operator*(Mod y) {return Mod(val*y.val, mod);}
-    Mod operator+=(Mod y) {return Mod(val = (val+y.val), mod);}
+    Mod operator+(Mod y) {return Mod(val+y.val);}
+    Mod operator*(Mod y) {return Mod(val*y.val);}
+    Mod operator+=(Mod y) {return Mod(val = (val+y.val)%mod);}
+
+    bool operator>(Mod y) {return (val > y.val);}
+    bool operator>=(Mod y) {return (val >= y.val);}
+    bool operator<(Mod y) {return (val < y.val);}
+    bool operator<=(Mod y) {return (val <= y.val);}
 };
 
-struct Seg { // everything is [l, r)
-    typedef int T;
-    T combine(T a, T b) {return a + b;} // combine can be any associative function ((a + b) + b = a + (b + c)).
-                                        // Note that combine doesn't have to be commutative (a + b = b + a).
-    vector<T> seg; // underlying segment tree array
-    vector<T> lazy; // stores the lazy values
-    int num_nodes; //
-    
-    void apply(int node, T value, int length) { // set
-        seg[node] = value * length;
-        if (node < num_nodes) {
-            lazy[node] = value;
-        }
-    }
-    
-    void build() {
-        for (int i = num_nodes - 1; i > 0; i--) {
-            seg[i] = combine(seg[i * 2], seg[i * 2 + 1]);
-        }
+struct Sums {
+    typedef Mod T;
+    T linear, square, cube, len;
+    Sums(T len = 0) : linear(0), square(0), cube(0), len(len) {}
+    Sums(T a, T b, T c, T d) : linear(a), square(b), cube(c), len(d) {}
+
+    Sums operator+(Sums y) {
+        return Sums(
+            linear + y.linear,
+            square + y.square,
+            cube + y.cube,
+            len + y.len
+        );
     }
 
-    void push() { // propagate **down** the tree
-        for (int i = 1; i < num_nodes; i++) {
-            seg[i * 2] += seg[i];
-            seg[i * 2 + 1] += seg[i];
-        }
+    Sums operator+=(Sums y) {
+        return Sums(
+            linear += y.linear,
+            square += y.square,
+            cube += y.cube,
+            len += y.len
+        );
     }
 
-    void set(int node, T value) { // set `node` to `value`
-        node += num_nodes; // we add num_nodes because we want to be at the bottom layer
-        seg[node] = value;
-        for (; node > 1; node /= 2) {
-            seg[node / 2] = combine(seg[node], seg[node ^ 1]); // parent = aggregate of lchild and rchild
-                                                       // node^1 flips last bit i.e. other child 
-        }
+    Sums operator+=(T y) {
+        cube += square * y * 3 + linear * y * y * 3 + len * y * y * y;
+        square += linear * y * 2 + len * y * y;
+        linear += len * y;
+        return Sums(
+                linear,
+                square,
+                cube,
+                len
+        );
     }
-
-    void modify(int l, int r, T value) { // [l, r)
-        l += num_nodes; r += num_nodes;
-        int l0 = l, r0 = r;
-        for (; l < r; l /= 2, r /= 2) {
-            if (l % 2 == 0) {
-
-            }
-        }
-    }
-
-    // supports non commutative functions
-    T query(int l, int r) { // [l, r)
-        T resl, resr;
-        l += num_nodes; r += num_nodes;
-        
-        for (; l < r; l /= 2, r /= 2) {
-            if (l % 2 == 0) { // checks if on edge and parent not in range
-                resl = combine(resl, seg[l++]);
-            }
-            if (r % 2 == 0) { // same
-                resr = combine(seg[--r], resr);
-            }
-        }
-        return combine(resl, resr);
-    }
-
-
 };
 
-
-struct Tree {
-	typedef Mod T;
-	T f(T a, T b) { return a + b; } // (any associative fn)
-    int n;
-	vector<T> segt, vals, lazy;
-    Tree(int n = 0, T def = 0) : segt(2*n, def), vals(n, def), lazy(n, def), n(n) {}
-
-	void update(int l, int r, T val) {
-        T org = vals[l];
-        l += n;
-        T add = org * val * (org + val) * 3 + val*val*val;
-		for (segt[l] += (add); l /= 2;)
-			segt[l] = f(segt[l * 2], segt[l * 2 + 1]);
-	}
-	T query(int b, int e) { // query [b, e)
-		T ra = 0, rb = 0;
-		for (b += n, e += n; b < e; b /= 2, e /= 2) {
-			if (b % 2) ra = f(ra, segt[b++]);
-			if (e % 2) rb = f(segt[--e], rb);
-		}
-		return f(ra, rb);
-	}
-};
-
-signed main()
+struct LazyTree // Range add, range max query
 {
+    typedef Sums T;
+    const T unit = Sums(1);
+    int n;
+    vector<T> tree;
+    vector<Mod> lazy;
+    LazyTree(int n) : n(n), tree(n * 4, unit), lazy(n * 4, 0) {rep(i, n) {add(i, i, 0);}}
+
+    T merge(T a, T b)
+    {
+        return a + b;
+    }
+
+    void push(int x)
+    {
+        tree[x * 2] += lazy[x];
+        tree[x * 2 + 1] += lazy[x];
+        lazy[x * 2] += lazy[x];
+        lazy[x * 2 + 1] += lazy[x];
+        lazy[x] = 0;
+    }
+
+
+
+    void add(int x, int l, int r, int ql, int qr, Mod v)
+    {
+        if (l > qr || r < ql) return;
+        if (l >= ql && r <= qr)
+        {
+            lazy[x] += v;
+            tree[x] += v;
+            return;
+        }
+        push(x);
+
+        int mid = (l + r) / 2;
+        add(x * 2, l, mid, ql, qr, v);
+        add(x * 2 + 1, mid + 1, r, ql, qr, v);
+        tree[x] = merge(tree[x * 2], tree[x * 2 + 1]);
+    }
+
+
+
+    void add(int ql, int qr, Mod v) {
+        add(1, 0, n - 1, ql, qr, v);
+    }
+
+
+
+    T query(int x, int l, int r, int ql, int qr)
+    {
+        if (l > qr || r < ql) return Sums(0);
+        if (l >= ql && r <= qr) return tree[x];
+        push(x);
+
+        int mid = (l + r) / 2;
+        return merge(query(x * 2, l, mid, ql, qr), query(x * 2 + 1, mid + 1, r, ql, qr));
+    }
+
+    T query(int ql, int qr) { return query(1, 0, n - 1, ql, qr); }
+};
+
+signed main() {
 	fast();
+
     int n, q;
     cin >> n >> q;
 
-    Tree tree(n);
+    LazyTree tree(n);
 
     rep(i, q) {
-        int opt, l ,r;
-        cin >> opt >> l >> r;
-        
-        if (opt == 0) {
-            cout << tree.query(l, r+1).val << "\n";
+        int t, l, r;
+        cin >> t >> l >> r;
+
+        if (t == 0) {
+            cout << tree.query(l, r).cube.val << endl;
         } else {
             int v;
             cin >> v;
-            tree.update(l, r+1, v);
+            tree.add(l, r, v);
         }
     }
 

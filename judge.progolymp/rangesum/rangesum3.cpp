@@ -64,7 +64,7 @@ struct Node
 
 		rchild->sum = rchild->sum + lazy * Mod(r - (mid + 1) + 1);
 		rchild->lazy = rchild->lazy + lazy;
-		lazy = 0;
+		lazy = Mod(0);
 	}
 
 	void add(int ql, int qr, Mod v)
