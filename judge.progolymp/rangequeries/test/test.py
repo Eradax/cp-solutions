@@ -5,7 +5,7 @@ inp = "./inp.txt"
 ans = "./ans.txt"
 out = "./out.txt"
 
-for i in range(int(1e2)):
+for i in range(int(1e3)):
     print(f"------ Starting TC {i} -------")
     os.system(f"./gen.py {i} > {inp}")
     os.system(f"./sol.py < {inp} > {ans}")
