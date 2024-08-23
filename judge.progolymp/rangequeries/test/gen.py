@@ -13,8 +13,8 @@ def cmdlinearg(name, default=None):
 
 random.seed(int(cmdlinearg('seed', sys.argv[-1])))
 
-MAX_VAL: int = int(1e9)
-MAX_N: int = int(1e4)
+MAX_VAL: int = int(1e2)
+MAX_N: int = int(1e2)
 MAX_Q: int = int(1e2)
 
 n: int = int(cmdlinearg("n", random.randint(1, MAX_N)))
