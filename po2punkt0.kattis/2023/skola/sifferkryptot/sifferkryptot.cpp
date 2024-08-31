@@ -1,7 +1,10 @@
 #include <bits/stdc++.h>
-#include "dbg.h"
 
-// #define dbg(x)
+#ifdef LOCAL
+    #include "dbg.h"
+#else
+    #define dbg(...)
+#endif
 
 using namespace std;
 

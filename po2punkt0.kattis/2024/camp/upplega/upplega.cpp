@@ -135,9 +135,6 @@ int main() {
 		memo.push_back({{-1, -1}, {-1, -1}});
 	}
 
-	for (auto elem: totDrop) {
-		cout << elem << endl;
-	}
 
 	// Binary search
 	ld lo=0, hi=1e9;

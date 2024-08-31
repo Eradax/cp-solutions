@@ -1,5 +1,10 @@
 #include <bits/stdc++.h>
-#include "dbg.h"
+
+#ifdef LOCAL
+    #include "dbg.h"
+#else
+    #define dbg(...)
+#endif
 
 using namespace std;
 
@@ -63,8 +68,8 @@ signed main() {
     }
 
     if (c < 0) {
-        T--;
-        M--;
+        t--;
+        m--;
     }
 
     // dbg(t);
