@@ -39,7 +39,7 @@ struct Vertex {
     int link = -1;
     vector<int> go;
 
-    Vertex(int p=-1, char ch='$') : p(p), pch(ch), next(vector<int>(K, -1)), go(vector<int>(K, -1)) {}
+    Vertex(int p=-1, char ch='$') : p(p), pch(ch), next(vector<int>(K, -1)), go(vector<int>(K, -1)) {} 
 
     PRINTABLE(next, output, calced, p, pch, link, go)
 };
