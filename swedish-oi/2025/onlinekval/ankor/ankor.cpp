@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-#include <cmath>
 
 #ifdef DBG
     #include "../../../../dbg.h"
@@ -10,47 +9,40 @@
 using namespace std;
 
 using ld = long double;
+using pll = pair<ld, ld>;
 
 #define rep(i, n) for (int i = 0; i < (n); i++)
+
+const ld k = 3.141592653589793;
+const ld eps = 1e-9;
 
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
-    
-    cout.precision(15);
 
     int n;
     cin >> n;
 
+    vector<pll> ducks(2 * n);
 
-    ld px, py;
-    px = 1e6 * 3.14159265358979;
-    py = 0.5;
-
-    vector<pair<ld, ld>> points(2*n);
-    vector<ld> angles(2*n);
-    rep(i, 2*n) {
-        cin >> points[i].first >> points[i].second;
+    rep(i, 2 * n) {
+        cin >> ducks[i].first >> ducks[i].second;
     }
 
-    sort(points.begin(), points.end(), [&](pair<ld, ld> l, pair<ld, ld> h){
-        auto [lx, ly] = l;
-        auto [hx, hy] = h;
+    // nth_element(ducks.begin(), ducks.end(), ducks.begin() + n - 1, [](pll l, pll r){
+    //     return (l.second - l.first * k) < (r.second - r.first * k);
+    // });
+    //
+    // dbg(ducks[n - 1]);
 
-        return atan2(py - ly, px - lx) < atan2(py - hy, px - hx);
+    sort(ducks.begin(), ducks.end(), [](pll l, pll r){
+        return (l.second - l.first * k) < (r.second - r.first * k);
     });
 
-    rep(i, 2*n) {
-        angles[i] = atan2(py - points[i].second, px - points[i].first);
-    }
+    dbg(ducks[n - 1]);
 
-    dbg(points);
-    dbg(angles);
+    ld m = (ducks[n - 1].second - ducks[n - 1].first * k) + eps;
 
-    ld ang = (angles[n-1]+angles[n]) / 2;
-
-    ld k = tan(ang);
-    ld m = py - k*px;
-
+    cout.precision(15);
     cout << fixed << k << " " << m << endl;
 }
