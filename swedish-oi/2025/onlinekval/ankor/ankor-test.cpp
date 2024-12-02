@@ -25,5 +25,6 @@ int main() {
         if (y > k*x+m) a++;
     }
 
-    cout << (a == n) && (-5e9 <= k && k <= 5e9) && (-5e9 <= m && m <= 5e9);
+    cout << "a = " << a << endl;
+    cout << ((a == n) && (-5e9 <= k && k <= 5e9) && (-5e9 <= m && m <= 5e9)) << endl;
 }
