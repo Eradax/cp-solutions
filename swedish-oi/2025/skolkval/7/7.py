@@ -14,12 +14,6 @@ invfac = [1] * MAXNK
 for i in range(2, MAXNK):
     invfac[i] = (invfac[i - 1] * inv[i]) % MOD
 
-# for idx, (i, j) in enumerate(zip(fac, invfac)):
-#     if (i * j) % MOD != 1:
-#         print(f"{idx = }")
-#         print(f"{i, j = }")
-#         exit()
-
 
 def ncr(n, k):
     if not (n >= 0 and k >= 0 and n >= k):
@@ -27,28 +21,38 @@ def ncr(n, k):
     else:
         ans = (fac[n] * invfac[k] * invfac[n - k]) % MOD
 
-    # if ans != comb(n, k) % MOD:
-    #     print(f"{ans = }")
-    #     print(f"{comb(n, k) % MOD = }")
-    #     print(f"{n, k = }")
-
     return ans
 
 
 n, k, s, a = map(int, input().split())
 
+spow = [1] * MAXNK
+for i in range(1, MAXNK):
+    spow[i] = (spow[i - 1] * s) % MOD
 
-def solve(k):
+akpow = [[1] * MAXNK for _ in range(2)]
+
+p = (a * k) % MOD
+for i in range(1, MAXNK):
+    akpow[1][i] = (akpow[1][i - 1] * p) % MOD
+
+p = (a * (k - 1)) % MOD
+for i in range(1, MAXNK):
+    akpow[0][i] = (akpow[0][i - 1] * p) % MOD
+
+
+def solve(nn, kk, ind):
     ans = 0
-    for i in range(n + 1):
+    for i in range(nn + 1):
         add = 1
-        add = (add * pow(a * k, i, MOD)) % MOD
-        add = (add * pow(s, n - i, MOD)) % MOD
-        add = (add * ncr(n, i)) % MOD
-        add = (add * ncr(k, n - i)) % MOD
-
+        add = (add * akpow[ind][i]) % MOD
+        add = (add * spow[nn - i]) % MOD
+        add = (add * ncr(nn, i)) % MOD
+        add = (add * ncr(kk, nn - i)) % MOD
+    
         ans = (ans + add) % MOD
     return ans
 
 
-print((solve(k) - solve(k - 1)) % MOD)
+print((solve(n, k, 1) - solve(n, k - 1, 0)) % MOD)
+
