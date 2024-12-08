@@ -52,7 +52,7 @@ struct MINT {
 };
 
 
-constexpr auto fac{[]() constexpr{    
+auto fac{[]() constexpr{    
     array<ll, MAXN> res{};
     rep(i, MAXN) {
         if (i == 0) {
@@ -65,7 +65,7 @@ constexpr auto fac{[]() constexpr{
 }()};
 
 
-constexpr auto inv{[]() constexpr{    
+auto inv{[]() constexpr{    
     array<ll, MAXN> res{};
     rep(i, MAXN) {
         if (i < 2) {
@@ -78,7 +78,7 @@ constexpr auto inv{[]() constexpr{
 }()};
 
 
-constexpr auto invfac{[]() constexpr{    
+auto invfac{[]() constexpr{    
     array<ll, MAXN> res{};
     rep(i, MAXN) {
         if (i < 2) {
