@@ -26,7 +26,7 @@ int main() {
         mi += min(sc - 1, 9) * e;
         sc -= min(sc - 1, 9);
         e *= 10;
-    } mi += min(sc, 9) * e;
+    } mi += sc * e;
 
     sc = s;
     rep(i, l) {

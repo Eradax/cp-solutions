@@ -1,5 +1,11 @@
 #include <bits/stdc++.h>
 
+#ifdef DBG
+    #include "../../../../dbg.h"
+#else
+    #define dbg(...)
+#endif
+
 using namespace std;
 
 using ll = long long;
@@ -28,6 +34,8 @@ signed main() {
 
             moves += (h[i] - ac + s - 1) / s;
         }
+
+        dbg("-----", mi, moves);
 
         if (moves <= mi) {
             hi = mi;
