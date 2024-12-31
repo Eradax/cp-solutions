@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from collections import defaultdict as dd
 from heapq import heapify, heappop, heappush
 

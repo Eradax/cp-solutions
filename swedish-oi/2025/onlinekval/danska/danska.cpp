@@ -160,6 +160,7 @@ int main() {
 
     ll ans = 0;
     rep(i, l) {
+        dbg(t[i].output);
         ans = (ans + l1[i]) % MOD;
     }
 

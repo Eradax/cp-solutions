@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import sys
 sys.setrecursionlimit(1000000)
 n,m=map(int, input().split())

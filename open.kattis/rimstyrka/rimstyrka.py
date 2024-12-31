@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 def lcs(w1: str, w2: str):
     if w1.startswith(w2) or w2.startswith(w1):
         return 0

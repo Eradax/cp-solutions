@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 n, m = map(int, input().split())
 
 while not n==0:

@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 class SegmentTree:
     def __init__(self, data, default=0, func=max):
         """initialize the segment tree with data"""

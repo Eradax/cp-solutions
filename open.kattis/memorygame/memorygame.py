@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 n, q = [int(i) for i in input().split()]
 arr = input().split()
 pairs = len(arr)-len(set(arr))

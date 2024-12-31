@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 class DSU:
     def __init__(self, n):
         self.rank = [1] * n

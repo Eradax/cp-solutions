@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from copy import deepcopy
 
 def matMul(A, B):

@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 def solve(p, q):
 	path = []
 	while p != q:

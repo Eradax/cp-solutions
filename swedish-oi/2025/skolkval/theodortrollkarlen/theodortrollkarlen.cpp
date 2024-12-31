@@ -11,61 +11,12 @@ using namespace std;
 using ll = long long;
 
 #define rep(i, n) for (int i = 0; i < (n); i++)
+#define repp(i, l, n) for (int i = l; i < (n); i++)
 
 constexpr ll MOD = 1e9 + 7;
-constexpr int MAXN = 2e5 + 1;
+constexpr int MAXN = 2e5 + 10;
 
-struct MINT {
-    ll v;
-    MINT() : v(0) {}
-    MINT(ll v) : v(v % MOD) {}
-
-    MINT operator+(MINT o) {
-        return MINT(o.v + v);
-    }
-
-
-    MINT operator*(MINT o) {
-        return MINT(o.v * v);
-    }
-
-    MINT operator*=(MINT o) {
-        v *= o.v;
-        v %= MOD;
-
-        return v;
-    }
-
-    MINT operator+=(MINT o) {
-        v += o.v;
-        v %= MOD;
-
-        return v;
-    }
-
-    MINT operator-=(MINT o) {
-        v -= o.v;
-        if (v < 0) v += MOD;
-
-        return v;
-    }
-};
-
-
-auto fac{[]() constexpr{    
-    array<ll, MAXN> res{};
-    rep(i, MAXN) {
-        if (i == 0) {
-            res[i] = 1;
-        } else {
-            res[i] = (res[i - 1] * i) % MOD;
-        }
-    }
-    return res;
-}()};
-
-
-auto inv{[]() constexpr{    
+const auto inv{[](){    
     array<ll, MAXN> res{};
     rep(i, MAXN) {
         if (i < 2) {
@@ -77,85 +28,104 @@ auto inv{[]() constexpr{
     return res;
 }()};
 
-
-auto invfac{[]() constexpr{    
-    array<ll, MAXN> res{};
-    rep(i, MAXN) {
-        if (i < 2) {
-            res[i] = 1;
-        } else {
-            res[i] = (res[i - 1] * inv[i]) % MOD;
-        }
-    }
-    return res;
-}()};
-
-
-MINT ncr(ll n, ll k) {
-    MINT ans = 0;
-    if (!(n >= 0 && k >= 0 && n >= k)) {
-        ans = 0;
-    } else {
-        ans = (MINT)fac[n] * (MINT)invfac[k] * (MINT)invfac[n - k];
-    }
-
-    dbg(ans);
-
-    return ans;
+ll euclid(ll a, ll b, ll& x, ll& y) {
+    if (!b) return x = 1, y = 0, a;
+    ll d = euclid(b, a % b, y, x);
+    return y -= a / b * x, d;
 }
-
-
-void calcPows(array<MINT, MAXN>& a, MINT p) {
-    MINT e = 1;
-    rep(i, MAXN) {
-        a[i] = e;
-        e *= p;
+template<int mod>
+struct Mint {
+    ll x;
+    Mint(ll xx) : x(xx) { x %= mod; x += mod; x %= mod; }
+    // No-mod constructor
+    Mint(ll xx, bool nope) : x(xx) { }
+    Mint() : x(0) {}
+    Mint operator+(Mint b) { int y = x + b.x; return { y - (y >= mod) * mod, false }; }
+    Mint operator-(Mint b) { int y = x - b.x; return { y + (y < 0) * mod, false }; }
+    Mint operator-() { return { -x + mod, false }; }
+    Mint operator*(Mint b) { return { x * b.x % mod, false }; }
+    Mint operator/(Mint b) { return { x * invert(b).x % mod, false }; }
+    Mint invert(Mint a) {
+        return inv[a.x];
     }
-}
+    friend ostream& operator<<(ostream& out, const Mint& a) { return out << a.x; }
+    friend istream& operator>>(istream& in, Mint& a) { ll val; in >> val; a = Mint(val); return in; }
+};
+typedef Mint<int(1e9 + 7)> Mod;
 
-
-array<MINT, MAXN> spow;
-array<array< MINT, MAXN>, 2> akpow;
-
-
-MINT solve(int nn, int kk, int ind) {
-    MINT ans = 0;
-    rep(i, nn + 1) {
-        MINT add = 1;
-        add *= akpow[ind][i];
-        add *= spow[nn - i];
-        add *= ncr(nn, i);
-        add *= ncr(kk, nn - i);
-
-        dbg(add);
-
-        ans += add;
+Mod binpow(Mod a, Mod b) {
+    Mod ret = 1;
+    Mod e = a;
+    while (b.x) {
+        if (b.x % 2) ret = ret * e;
+        e = e * e;
+        b.x >>= 1;
     }
 
-    return ans;
+    return ret;
 }
 
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    dbg(fac, inv, invfac);
-
-    ll n, k, s, a;
+    Mod n, k, s, a;
     cin >> n >> k >> s >> a;
 
-    calcPows(spow, s);
-    calcPows(akpow[1], a * k);
-    calcPows(akpow[0], a * (k - 1));
+    int mi = n.x < k.x ? n.x : k.x;
+    int ma = n.x > k.x ? n.x : k.x;
 
-    dbg(spow, akpow[0], akpow[1]);
+    dbg(mi, ma);
+   
+    Mod ans(0, 0);
+
+    Mod stub(1, 0);
+    Mod kbit(binpow(k, n+2));
+    Mod kibit(binpow(k-1, n+1)*(k+1));
+
+    Mod kfac(1, 0), nfac(1, 0);
+
+    repp(i, 1, ma + 1) {
+        if (i <= n.x) nfac = nfac * i;
+        if (i <= k.x) kfac = kfac * i;
+
+        if (i <= n.x + 1) stub = stub * inv[i];
+        if (i <= k.x + 1) stub = stub * inv[i];
+    }
+
+    dbg(kfac, nfac);
+    dbg(stub, kbit, kibit);
+
+    if (a.x) {
+        rep(i, mi + 1) {
+            stub = stub * inv[i] * inv[i] * (n - i) * (k - i);
+            kbit = kbit * inv[k.x];
+            kibit = kibit * (k - i) * inv[k.x - 1] * inv[k.x - i + 1];
+
+            ans = ans + stub * (kbit - kibit);
 
 
+            dbg(stub, kbit, kibit);
+            dbg(ans);
+        }
 
-    MINT ans = 0;
-    ans += solve(n, k, 1);
-    ans -= solve(n, k - 1, 0);
 
-    cout << ans.v << endl;
+        ans = ans * binpow(a, n) * nfac * kfac * inv[k.x];
+    } else {
+        // FIX: This is wrong, see notes
+
+        int i = n.x;
+
+        stub = stub * inv[i] * inv[i] * inv[n.x - i] * inv[n.x - i];
+        kbit = kbit * inv[k.x];
+        kibit = kibit * (k - i) * inv[k.x - 1] * inv[k.x - i + 1];
+
+        ans = ans + stub * (kbit - kibit);
+
+        dbg(ans);
+    }
+
+
+    cout << ans << endl;
 }
 

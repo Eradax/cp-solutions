@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 D=10**9+7
 A=0
 E=0

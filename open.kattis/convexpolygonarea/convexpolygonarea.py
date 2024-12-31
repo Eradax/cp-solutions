@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 num = int(input())
 
 for i in range(num):

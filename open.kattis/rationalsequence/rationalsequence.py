@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 def solve(p, q):
 	# Right Child
 	layers = 0

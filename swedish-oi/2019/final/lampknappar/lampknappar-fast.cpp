@@ -25,9 +25,6 @@ const int M = 2000;
 
 
 int main() {
-    assert(min(1, 3) == 1);
-
-
     ios::sync_with_stdio(false);
     cin.tie(NULL);
 
