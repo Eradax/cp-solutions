@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 inp = input()
 und, low, upp, sym = 0, 0, 0, 0
 

@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 def solve(n):
 	path = []
 	while n != 1:

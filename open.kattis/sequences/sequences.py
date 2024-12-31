@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # Our modulus
 mod = 10**9+7
 

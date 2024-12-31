@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 def layers(n, up, down, goal, start=0):
 	used = [False] * (n+1)
 	used[start] = True

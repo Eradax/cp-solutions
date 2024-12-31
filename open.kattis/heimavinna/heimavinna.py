@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 inp = input().split(';')
 
 s=0

@@ -1,6 +1,4 @@
 #include <bits/stdc++.h>
-#include <random>
-#include <string>
 
 #ifdef DBG
     #include "../../../../../dbg.h"
@@ -105,25 +103,10 @@ string decode(string e) {
                 if (mh < 0) h += HASHMOD;
                 mh %= HASHMOD;
             } else {
-                uint64_t pmch = mch;
                 if (bset[r]) {
                     mch -= (1ULL << (r - STRLEN));
                 } else {
                     mch += 1ULL << (r - STRLEN);
-                }
-                
-                if (bset[r]) {
-                    if (!(pmch > mch)) {
-                        dbg(pmch, mch, l, r, bset[r]);
-                    }
-
-                    assert(pmch > mch);
-                } else {
-                    if (!(pmch < mch)) {
-                        dbg(pmch, mch, l, r, bset[r]);
-                    }
-
-                    assert(pmch < mch);
                 }
             }
 

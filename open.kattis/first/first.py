@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 t = int(input())
 
 def to_base(number, base):
