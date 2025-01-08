@@ -54,4 +54,4 @@ for _ in range(k):
     else:
         ans.append(str(query(int(line[1]), int(line[2]) + 1)))
 
-print("\n".join(ans))
+print(*ans, sep="\n")
