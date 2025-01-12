@@ -1,7 +1,7 @@
 #include "books.h"
 #include <bits/stdc++.h>
 
-namespace ans {
+namespace sol {
 /*
 Either the answer is K consecutive numbers or
 the first K-1 numbers and then the first number >= A
