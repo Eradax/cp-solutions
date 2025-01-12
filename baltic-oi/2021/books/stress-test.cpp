@@ -138,6 +138,7 @@ bool init(int NN, int KK, ll AA, int SS, vl v) {
   // dbg(ansret);
 
   clear(NN, KK, AA, SS, v);
+  S = 40;
   if (!validate()) {
     return 1;
   }
@@ -160,7 +161,7 @@ template <typename R, typename T, typename U> inline R randint(T lo, U hi) {
 }
 
 const int MAX_N = 170;
-const int MAX_K = 3;
+const int MAX_K = 170;
 const ll MAX_A = 1e17;
 const int MAX_S = 170;
 const ll MAX_V = 1e17;
@@ -178,7 +179,7 @@ int main() {
     NN = randint<int>(3, MAX_N);
     KK = randint<int>(3, min(NN, MAX_K));
     AA = randint<ll>(1, MAX_A);
-    // SS = randint<int>(3, MAX_N);
+    // SS = randint<int>(40, MAX_N);
     SS = NN;
 
     vals.clear();
