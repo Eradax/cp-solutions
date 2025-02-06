@@ -1,9 +1,9 @@
 #include <bits/stdc++.h>
 
 #ifdef DBG
-#include "../../../../dbg.h"
+  #include "../../../../dbg.h"
 #else
-#define dbg(...)
+  #define dbg(...)
 #endif
 
 /*
@@ -45,16 +45,18 @@ int main() {
         continue;
 
       if (j / (c + 1) < r - 1) {
-        dp[i][j / (c + 1) * (c + 1) + c + 1 + a[i - 1]] =
-            min(dp[i][j / (c + 1) * (c + 1) + c + 1 + a[i - 1]], dp[i - 1][j]);
+        dp[i][j / (c + 1) * (c + 1) + c + 1 + a[i - 1]] = min(
+            dp[i][j / (c + 1) * (c + 1) + c + 1 + a[i - 1]], dp[i - 1][j]
+        );
       }
       if (a[i - 1] + (j % (c + 1)) <= c) {
         dp[i][j + a[i - 1]] = min(dp[i][j + a[i - 1]], dp[i - 1][j]);
       }
 
       if (dp[i - 1][j] / (c + 1) + 1 < r) {
-        dp[i][j] = min(dp[i][j], dp[i - 1][j] + c + 1 + a[i - 1] -
-                                     (dp[i - 1][j] % (c + 1)));
+        dp[i][j] = min(
+            dp[i][j], dp[i - 1][j] + c + 1 + a[i - 1] - (dp[i - 1][j] % (c + 1))
+        );
       }
       if (dp[i - 1][j] % (c + 1) + a[i - 1] <= c) {
         dp[i][j] = min(dp[i][j], dp[i - 1][j] + a[i - 1]);

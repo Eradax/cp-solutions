@@ -1,0 +1,23 @@
+Language: Cpp
+
+IndentWidth: 2
+
+BasedOnStyle: Chromium
+IndentPPDirectives: BeforeHash # https://reviews.llvm.org/D35955
+
+AlignAfterOpenBracket: BlockIndent
+
+AllowAllArgumentsOnNextLine: true
+BinPackArguments: false
+BinPackParameters: false
+ExperimentalAutoDetectBinPacking: false
+AllowAllParametersOfDeclarationOnNextLine: false
+
+
+# BreakBeforeParameters: Always
+# BinPackArguments: false
+# AllowAllParametersOfDeclarationOnNextLine: false
+#
+# 
+PenaltyBreakBeforeFirstCallParameter: 0
+PenaltyBreakAssignment: 100

@@ -1,9 +1,9 @@
 #include <bits/stdc++.h>
 
 #ifdef DBG
-#include "../../../../dbg.h"
+  #include "../../../../dbg.h"
 #else
-#define dbg(...)
+  #define dbg(...)
 #endif
 
 using namespace std;
@@ -32,7 +32,7 @@ signed main() {
     g++;
     b++;
     k--;
-  } else if (g + b == 0 && k <= 1){
+  } else if (g + b == 0 && k <= 1) {
     k = 0;
   }
 
@@ -50,7 +50,6 @@ signed main() {
   // b -= take;
   // g += take;
   // r += take;
-
 
   // take = min(r, k / 3);
   // k -= take;

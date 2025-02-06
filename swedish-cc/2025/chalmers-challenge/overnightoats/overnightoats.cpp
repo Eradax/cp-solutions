@@ -29,8 +29,7 @@ int main() {
         cout << "ono.." << endl;
         return 0;
       }
-    }else if (line == "PASS") {
-
+    } else if (line == "PASS") {
     }
   }
 

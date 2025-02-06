@@ -1,9 +1,9 @@
 #include <bits/stdc++.h>
 
 #ifdef DBG
-#include "../../../../dbg.h"
+  #include "../../../../dbg.h"
 #else
-#define dbg(...)
+  #define dbg(...)
 #endif
 
 using namespace std;
@@ -20,7 +20,9 @@ int main() {
   cin >> n >> d;
 
   vi l(2 * n);
-  rep(i, 2 * n) { cin >> l[i]; }
+  rep(i, 2 * n) {
+    cin >> l[i];
+  }
 
   sort(all(l));
 
@@ -32,5 +34,7 @@ int main() {
   }
 
   cout << "Ja" << "\n";
-  rep(i, n) { cout << l[n + i] << " " << l[i] << '\n'; }
+  rep(i, n) {
+    cout << l[n + i] << " " << l[i] << '\n';
+  }
 }

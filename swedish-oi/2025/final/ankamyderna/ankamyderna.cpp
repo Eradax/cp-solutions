@@ -1,9 +1,9 @@
 #include <bits/stdc++.h>
 
 #ifdef DBG
-#include "../../../../dbg.h"
+  #include "../../../../dbg.h"
 #else
-#define dbg(...)
+  #define dbg(...)
 #endif
 
 using namespace std;
@@ -29,7 +29,9 @@ signed main() {
   cin >> n >> m;
 
   vi ank(n);
-  rep(i, n) { cin >> ank[i]; }
+  rep(i, n) {
+    cin >> ank[i];
+  }
 
   vi col(m);
   rep(i, m) {
@@ -45,8 +47,12 @@ signed main() {
 
     bool possible = true;
     vi cnt(n);
-    rep(i, mi) { cnt[col[i]] += (mi - i) * (mi - i); }
-    rep(i, n) { possible &= ank[i] >= cnt[i]; }
+    rep(i, mi) {
+      cnt[col[i]] += (mi - i) * (mi - i);
+    }
+    rep(i, n) {
+      possible &= ank[i] >= cnt[i];
+    }
 
     if (!possible) {
       hi = mi;
@@ -57,8 +63,12 @@ signed main() {
 
   bool possible = true;
   vi cnt(n);
-  rep(i, lo) { cnt[col[i]] += (lo - i) * (lo - i); }
-  rep(i, n) { possible &= ank[i] >= cnt[i]; }
+  rep(i, lo) {
+    cnt[col[i]] += (lo - i) * (lo - i);
+  }
+  rep(i, n) {
+    possible &= ank[i] >= cnt[i];
+  }
 
   if (possible) {
   } else {

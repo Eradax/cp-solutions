@@ -1,9 +1,9 @@
 #include <bits/stdc++.h>
 
 #ifdef DBG
-#include "../../../../dbg.h"
+  #include "../../../../dbg.h"
 #else
-#define dbg(...)
+  #define dbg(...)
 #endif
 
 // NOLINTBEGIN
@@ -75,9 +75,9 @@ V{char*D;B*S;int J;V(){$w(E$(D=(char*)VirtualAlloc(0,536870912,8192,4))E$(Virtua
 #endif
 // End of blazingio
 // NOLINTEND
-// clang-format on
+    // clang-format on
 
-using namespace std;
+    using namespace std;
 
 using ll = long long;
 
@@ -105,7 +105,9 @@ int main() {
     cont[i]--;
   }
 
-  per(i, n) { seen[cont[i]] = i; }
+  per(i, n) {
+    seen[cont[i]] = i;
+  }
 
   per(i, n) {
     pos[cont[i]].push_back(i);

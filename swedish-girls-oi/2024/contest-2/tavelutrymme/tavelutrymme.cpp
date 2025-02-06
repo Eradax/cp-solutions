@@ -1,9 +1,9 @@
 #include <bits/stdc++.h>
 
 #ifdef DBG
-#include "../../../../dbg.h"
+  #include "../../../../dbg.h"
 #else
-#define dbg(...)
+  #define dbg(...)
 #endif
 
 /*
@@ -60,8 +60,10 @@ int main() {
           dp[i][j][k] = min(dp[i][j][k], {dp[i - 1][j][k].first + 1, a[i - 1]});
         }
         if (dp[i - 1][j][k].second + a[i - 1] <= c) {
-          dp[i][j][k] = min(dp[i][j][k], {dp[i - 1][j][k].first,
-                                          dp[i - 1][j][k].second + a[i - 1]});
+          dp[i][j][k] = min(
+              dp[i][j][k],
+              {dp[i - 1][j][k].first, dp[i - 1][j][k].second + a[i - 1]}
+          );
         }
       }
     }

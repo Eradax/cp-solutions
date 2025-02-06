@@ -1,9 +1,9 @@
 #include <bits/stdc++.h>
 
 #ifdef DBG
-#include "../../dbg.h"
+  #include "../../dbg.h"
 #else
-#define dbg(...)
+  #define dbg(...)
 #endif
 
 using namespace std;
@@ -18,7 +18,7 @@ const int INF = 1e9;
 #define rep(i, n) for (int i = 0; i < (n); i++)
 #define sz(c) ((int)c.size())
 
-inline void pbif(vector<ll> *c, ll v) {
+inline void pbif(vector<ll>* c, ll v) {
   dbg(v);
 
   if (abs(v) < INF)
@@ -34,8 +34,10 @@ struct MaT {
   pi comb(pi a, pi b) {
     dbg(a, b);
 
-    pi res = {max(a.first, b.first),
-              max(min(a.first, b.first), max(a.second, b.second))};
+    pi res = {
+        max(a.first, b.first),
+        max(min(a.first, b.first), max(a.second, b.second))
+    };
 
     dbg(res);
 
@@ -69,8 +71,10 @@ struct MiT {
   pi comb(pi a, pi b) {
     dbg(a, b);
 
-    pi res = {min(a.first, b.first),
-              min(max(a.first, b.first), min(a.second, b.second))};
+    pi res = {
+        min(a.first, b.first),
+        min(max(a.first, b.first), min(a.second, b.second))
+    };
 
     dbg(res);
 
@@ -140,7 +144,9 @@ int main() {
     vector<ll> vals;
 
     if (r - l + 1 < 6) {
-      rep(i, r - l - 1) { pbif(&vals, mit.t[n + l + 1 + i].first); }
+      rep(i, r - l - 1) {
+        pbif(&vals, mit.t[n + l + 1 + i].first);
+      }
     } else {
       pbif(&vals, mat.query(l + 1, r).first);
       pbif(&vals, mat.query(l + 1, r).second);

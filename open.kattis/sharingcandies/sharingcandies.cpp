@@ -69,9 +69,9 @@ V{char*D;B*S;int J;V(){$w(E$(D=(char*)VirtualAlloc(0,536870912,8192,4))E$(Virtua
 #endif
 // End of blazingio
 // NOLINTEND
-// clang-format on
+    // clang-format on
 
-using namespace std;
+    using namespace std;
 
 #define rep(i, n) for (int i = 0; i < (n); i++)
 #define repp(i, s, n) for (int i = s; i < (n); i++)

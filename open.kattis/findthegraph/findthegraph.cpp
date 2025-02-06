@@ -1,9 +1,9 @@
 #include <bits/stdc++.h>
 
 #ifdef DBG
-#include "../../dbg.h"
+  #include "../../dbg.h"
 #else
-#define dbg(...)
+  #define dbg(...)
 #endif
 
 using namespace std;
@@ -28,7 +28,8 @@ int query(vi* v) {
   int a;
   cin >> a;
 
-  if (a == -1) exit(0);
+  if (a == -1)
+    exit(0);
 
   return a;
 }
@@ -37,7 +38,8 @@ int main() {
   int n;
   cin >> n;
 
-  if (n == -1) exit(0);
+  if (n == -1)
+    exit(0);
 
   vi c(n);
   vvi mat(n, vi(n, 0));
@@ -63,10 +65,10 @@ int main() {
     }
   }
 
-  cout << '!' << endl; 
+  cout << '!' << endl;
   rep(i, n) {
     rep(j, n) {
-      if (j == n-1) {
+      if (j == n - 1) {
         cout << mat[i][j] << endl;
       } else {
         cout << mat[i][j] << ' ';

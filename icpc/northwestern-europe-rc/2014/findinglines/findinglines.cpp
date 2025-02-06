@@ -1,9 +1,9 @@
 #include <bits/stdc++.h>
 
 #ifdef DBG
-#include "../../../dbg.h"
+  #include "../../../dbg.h"
 #else
-#define dbg(...)
+  #define dbg(...)
 #endif
 
 /*
@@ -22,12 +22,13 @@ using ld = long double;
 random_device rd;
 mt19937 rng(rd());
 
-template <typename T> inline T randel(vector<T> &v) {
+template <typename T>
+inline T randel(vector<T>& v) {
   return v[uniform_int_distribution<int>(int(0), int(v.size()) - int(1))(rng)];
 }
 
 struct PH {
-  size_t operator()(const pair<ld, ld> &p) const {
+  size_t operator()(const pair<ld, ld>& p) const {
     auto h1 = hash<ld>{}(p.first);
     auto h2 = hash<ld>{}(p.second);
 
@@ -47,7 +48,9 @@ int main() {
 
   vector<pair<int, int>> c(n);
 
-  rep(i, n) { cin >> c[i].first >> c[i].second; }
+  rep(i, n) {
+    cin >> c[i].first >> c[i].second;
+  }
 
   if (n == 1) {
     cout << "possible" << endl;
@@ -91,7 +94,7 @@ int main() {
       counts[{m, b}] += 1;
     }
 
-    for (auto &i : counts) {
+    for (auto& i : counts) {
       dbg(i.second);
 
       if (i.second + 1 < (n * p + 100 - 1) / 100)

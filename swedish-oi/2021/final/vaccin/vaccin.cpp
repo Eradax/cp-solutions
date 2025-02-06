@@ -1,9 +1,9 @@
 #include <bits/stdc++.h>
 
 #ifdef DBG
-#include "../../../../dbg.h"
+  #include "../../../../dbg.h"
 #else
-#define dbg(...)
+  #define dbg(...)
 #endif
 
 using namespace std;
@@ -20,7 +20,8 @@ int main() {
 
   rep(i, n) {
     cin >> pre[i];
-    if (i) pre[i] += pre[i-1];
+    if (i)
+      pre[i] += pre[i - 1];
   }
 
   dbg(pre);

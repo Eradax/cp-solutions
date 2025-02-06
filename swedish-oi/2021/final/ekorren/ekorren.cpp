@@ -1,9 +1,9 @@
 #include <bits/stdc++.h>
 
 #ifdef DBG
-#include "../../../../dbg.h"
+  #include "../../../../dbg.h"
 #else
-#define dbg(...)
+  #define dbg(...)
 #endif
 
 using namespace std;
@@ -19,11 +19,13 @@ vector<bool> nut;
 int dfs(int u, int p) {
   int ans = 0;
   for (auto e : adj[u]) {
-    if (e == p) continue;
+    if (e == p)
+      continue;
     ans += dfs(e, u);
   }
 
-  if (u != 0 && (ans || nut[u])) ans++;
+  if (u != 0 && (ans || nut[u]))
+    ans++;
 
   dbg(u, p, ans);
 
@@ -38,7 +40,7 @@ int main() {
   cin >> n >> k;
 
   adj.resize(n);
-  nut.resize(n) ;
+  nut.resize(n);
 
   rep(i, k) {
     int t;
@@ -47,10 +49,11 @@ int main() {
     nut[t] = 1;
   }
 
-  rep(i, n-1) {
+  rep(i, n - 1) {
     int a, b;
     cin >> a >> b;
-    a--; b--;
+    a--;
+    b--;
 
     adj[a].push_back(b);
     adj[b].push_back(a);

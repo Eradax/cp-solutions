@@ -1,9 +1,9 @@
 #include <bits/stdc++.h>
 
 #ifdef DBG
-#include "../../../../dbg.h"
+  #include "../../../../dbg.h"
 #else
-#define dbg(...)
+  #define dbg(...)
 #endif
 
 using namespace std;
@@ -24,13 +24,14 @@ using vpi = vector<pi>;
 #define sz(c) ((int)c.size())
 #define all(c) c.begin(), c.end()
 
-ll euclid(ll a, ll b, ll &x, ll &y) {
+ll euclid(ll a, ll b, ll& x, ll& y) {
   if (!b)
     return x = 1, y = 0, a;
   ll d = euclid(b, a % b, y, x);
   return y -= a / b * x, d;
 }
-template <int mod> struct Mint {
+template <int mod>
+struct Mint {
   ll x;
   Mint(ll xx) : x(xx) {
     x %= mod;
@@ -56,8 +57,8 @@ template <int mod> struct Mint {
     assert(g == 1);
     return {(x + mod) % mod};
   }
-  friend ostream &operator<<(ostream &out, const Mint &a) { return out << a.x; }
-  friend istream &operator>>(istream &in, Mint &a) {
+  friend ostream& operator<<(ostream& out, const Mint& a) { return out << a.x; }
+  friend istream& operator>>(istream& in, Mint& a) {
     ll val;
     in >> val;
     a = Mint(val);
@@ -115,7 +116,6 @@ signed main() {
   reverse(all(s));
 
   {
-
     Mod lh, rh, ppow = 1;
 
     int split = 1;

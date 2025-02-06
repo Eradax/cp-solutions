@@ -1,13 +1,14 @@
 #include <bits/stdc++.h>
 
 #ifdef DBG
-#include "../../dbg.h"
+  #include "../../dbg.h"
 #else
-#define dbg(...)
+  #define dbg(...)
 #endif
 
 #define gc() getchar_unlocked()
-template <typename T> inline void read(T &v) {
+template <typename T>
+inline void read(T& v) {
   v = 0;
   char c;
   while ((c = gc()) && c != ' ' && c != '\n') {
@@ -55,9 +56,9 @@ int main() {
   dbg(a);
 
   sort(all(a));
-  int d = sz(a)>0;
-  rep(i, sz(a)-1) {
-    d += a[i]!=a[i+1];
+  int d = sz(a) > 0;
+  rep(i, sz(a) - 1) {
+    d += a[i] != a[i + 1];
   }
 
   dbg(d);

@@ -1,9 +1,9 @@
 #include <bits/stdc++.h>
 
 #ifdef DBG
-#include "../../../../dbg.h"
+  #include "../../../../dbg.h"
 #else
-#define dbg(...)
+  #define dbg(...)
 #endif
 
 /*
@@ -31,7 +31,7 @@ int main() {
   rep(i, n) {
     int tmp;
     cin >> tmp;
-  
+
     m[tmp / d]++;
   }
 

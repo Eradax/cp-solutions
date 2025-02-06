@@ -3,9 +3,9 @@
 #include <ext/pb_ds/priority_queue.hpp>
 
 #ifdef DBG
-#include "../../../../dbg.h"
+  #include "../../../../dbg.h"
 #else
-#define dbg(...)
+  #define dbg(...)
 #endif
 
 using namespace std;
@@ -111,7 +111,7 @@ signed main() {
         dist[edge->back().first] = val;
 
         if (its[edge->back().first] == q.end()) {
-         its[edge->back().first] = q.push({-val, edge->back().first});
+          its[edge->back().first] = q.push({-val, edge->back().first});
         } else {
           q.modify(its[edge->back().first], {-val, edge->back().first});
         }
@@ -121,5 +121,5 @@ signed main() {
 
   dbg(dist);
 
-  cout << dist[n-1] << endl;
+  cout << dist[n - 1] << endl;
 }

@@ -13,7 +13,7 @@ typedef pair<ll, ll> p2;
 typedef vector<p2> vp2;
 typedef vector<vp2> vvp2;
 
-#define repe(i, c) for (auto &i : c)
+#define repe(i, c) for (auto& i : c)
 #define sz(c) ((int)c.size())
 
 ll INF = 1e18;

@@ -26,8 +26,10 @@ struct T {
   }
 
   int query(int r) {
-    if (r < 0) return 0;
-    if (r >= sz(t)) r = sz(t) - 1;
+    if (r < 0)
+      return 0;
+    if (r >= sz(t))
+      r = sz(t) - 1;
 
     int ret = 0;
     for (r++; r > 0; r -= r & -r) {

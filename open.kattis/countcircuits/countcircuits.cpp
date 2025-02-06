@@ -11,7 +11,7 @@ typedef pair<int, int> p2;
 
 #define rep(i, high) for (int i = 0; i < high; i++)
 #define repp(i, low, high) for (int i = low; i < high; i++)
-#define repe(i, container) for (auto &i : container)
+#define repe(i, container) for (auto& i : container)
 #define per(i, high) for (int i = high - 1; i >= 0; i--)
 
 #define clz(x) __builtin_clz(x)
@@ -31,50 +31,55 @@ vector<p2> dirs = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
 
 // time and rng
 auto Start = chrono::high_resolution_clock::now();
-void resettimer() { Start = chrono::high_resolution_clock::now(); }
+void resettimer() {
+  Start = chrono::high_resolution_clock::now();
+}
 int elapsedmillis() {
   return chrono::duration_cast<chrono::milliseconds>(
-             chrono::high_resolution_clock::now() - Start)
+             chrono::high_resolution_clock::now() - Start
+  )
       .count();
 }
 random_device rd;
 mt19937 rng(rd());
-template <typename T, typename U> inline int randint(T lo, U hi) {
+template <typename T, typename U>
+inline int randint(T lo, U hi) {
   return uniform_int_distribution<int>((int)lo, (int)hi)(rng);
-} // [lo,hi]
-template <typename T> inline T randel(vector<T> &v) {
+}  // [lo,hi]
+template <typename T>
+inline T randel(vector<T>& v) {
   return v[uniform_int_distribution<int>(int(0), int(v.size()) - int(1))(rng)];
-} // [lo,hi]
+}  // [lo,hi]
 
 const int N = 40;
 const int M = 20 * N + 1;
 array<array<array<int, N + 1>, M>, M> dp;
 void initialize_array() {
-    for (int i = 0; i < M; ++i) {
-        for (int j = 0; j < M; ++j) {
-            for (int k = 0; k <= N; ++k) {
-                dp[i][j][k] = -1;
-            }
-        }
+  for (int i = 0; i < M; ++i) {
+    for (int j = 0; j < M; ++j) {
+      for (int k = 0; k <= N; ++k) {
+        dp[i][j][k] = -1;
+      }
     }
+  }
 }
 
 int n;
 vector<p2> vecs;
 
 int solve(int x, int y, int next) {
-  if (dp[x+400][y+400][next] != -1)
-    return dp[x+400][y+400][next];
+  if (dp[x + 400][y + 400][next] != -1)
+    return dp[x + 400][y + 400][next];
 
   int ans = 0;
-  if ((x == 0 && y == 0 && next !=0 ))
+  if ((x == 0 && y == 0 && next != 0))
     ans++;
 
   for (int i = next; i < n; i++) {
     ans += solve(x + vecs[i].first, y + vecs[i].second, i + 1);
   }
 
-  dp[x+400][y+400][next] = ans;
+  dp[x + 400][y + 400][next] = ans;
   return ans;
 }
 
@@ -85,8 +90,9 @@ signed main() {
 
   vecs.resize(n);
 
-  repe(i, vecs) { cin >> i.first >> i.second; }
-
+  repe(i, vecs) {
+    cin >> i.first >> i.second;
+  }
 
   // dp[x][y][i] = sum(vec to (x, y) that isn't before index i)
 

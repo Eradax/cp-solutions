@@ -2,9 +2,9 @@
 #include <bitset>
 
 #ifdef DBG
-#include "../../dbg.h"
+  #include "../../dbg.h"
 #else
-#define dbg(...)
+  #define dbg(...)
 #endif
 
 /*
@@ -35,7 +35,9 @@ int main() {
     vi v(n), w(n);
     vector<vector<pair<int, bool>>> dp(n + 1, vector<pair<int, bool>>(c + 1));
 
-    rep(i, n) { cin >> v[i] >> w[i]; }
+    rep(i, n) {
+      cin >> v[i] >> w[i];
+    }
 
     dbg(v, w);
 
@@ -79,7 +81,9 @@ int main() {
     }
 
     cout << ans << '\n';
-    rep(i, ans) { cout << anss[i] << ' '; }
+    rep(i, ans) {
+      cout << anss[i] << ' ';
+    }
     cout << '\n';
   }
 }

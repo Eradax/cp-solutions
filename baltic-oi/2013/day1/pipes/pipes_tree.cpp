@@ -6,10 +6,9 @@ using ll = long long;
 const int inf = (int)1e18;
 
 signed main() {
-    ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+  ios::sync_with_stdio(false);
+  cin.tie(NULL);
+  cout.tie(NULL);
 
-    
-
-    return 0;
+  return 0;
 }
-

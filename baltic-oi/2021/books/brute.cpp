@@ -1,5 +1,5 @@
-#include "books.h"
 #include <bits/stdc++.h>
+#include "books.h"
 
 namespace ans {
 /*
@@ -16,7 +16,9 @@ void solve(int N, int K, ll A, int S) {
 
   ll sum = 0;
   int l = 0, r = K;
-  rep(i, K) { sum += vals[i]; }
+  rep(i, K) {
+    sum += vals[i];
+  }
 
   while (r < N) {
     if (A <= sum && sum <= 2 * A) {
@@ -33,7 +35,9 @@ void solve(int N, int K, ll A, int S) {
 
   if (A <= sum && sum <= 2 * A) {
     vi ans(K);
-    rep(i, K) { ans[i] = l + i + 1; }
+    rep(i, K) {
+      ans[i] = l + i + 1;
+    }
 
     answer(ans);
     return;
@@ -43,12 +47,16 @@ void solve(int N, int K, ll A, int S) {
       i++;
     if (K <= i && i < N) {
       ll sum = 0;
-      rep(j, K - 1) { sum += vals[j]; }
+      rep(j, K - 1) {
+        sum += vals[j];
+      }
       sum += vals[i];
 
       if (A <= sum && sum <= 2 * A) {
         vi ans(K);
-        rep(j, K - 1) { ans[j] = j + 1; }
+        rep(j, K - 1) {
+          ans[j] = j + 1;
+        }
         ans[K - 1] = i + 1;
 
         answer(ans);
@@ -59,4 +67,4 @@ void solve(int N, int K, ll A, int S) {
     impossible();
   }
 }
-} // namespace sol
+}  // namespace ans

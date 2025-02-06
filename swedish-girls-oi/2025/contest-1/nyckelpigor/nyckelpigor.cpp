@@ -1,9 +1,9 @@
 #include <bits/stdc++.h>
 
 #ifdef DBG
-#include "../../../../dbg.h"
+  #include "../../../../dbg.h"
 #else
-#define dbg(...)
+  #define dbg(...)
 #endif
 
 using namespace std;
@@ -19,7 +19,9 @@ int main() {
 
   vector<pii> vh(n);
 
-  rep(i, n) { cin >> vh[i].first >> vh[i].second; }
+  rep(i, n) {
+    cin >> vh[i].first >> vh[i].second;
+  }
 
   sort(all(vh), [](pii a, pii b) {
     return abs(a.first - a.second) < abs(b.first - b.second);

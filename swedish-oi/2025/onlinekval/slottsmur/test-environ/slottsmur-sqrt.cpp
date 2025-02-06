@@ -1,9 +1,9 @@
 #include <bits/stdc++.h>
 
 #ifdef DBG
-#include "../../../../dbg.h"
+  #include "../../../../dbg.h"
 #else
-#define dbg(...)
+  #define dbg(...)
 #endif
 
 /*
@@ -40,7 +40,8 @@ struct SolverBase {
   virtual vi get_h() { return wall; }
 };
 
-template <const int BS> struct Solver : SolverBase {
+template <const int BS>
+struct Solver : SolverBase {
   vi wall;
 
   int preMax[(N + BS - 1) / BS][BS] = {0};
@@ -62,7 +63,9 @@ template <const int BS> struct Solver : SolverBase {
     dbg(sz(wall));
     dbg(BS);
 
-    rep(i, (n + BS - 1) / BS) { updB(i * BS, 0); }
+    rep(i, (n + BS - 1) / BS) {
+      updB(i * BS, 0);
+    }
 
     dbg(preMax, preSum, preWa);
   }
@@ -113,7 +116,7 @@ template <const int BS> struct Solver : SolverBase {
     dbg(preMax, preSum, preWa);
   }
 
-  ll queryB(int b, int l, int &h) {
+  ll queryB(int b, int l, int& h) {
     dbg(b, l, h);
 
     if (l == 0) {
@@ -176,7 +179,9 @@ template <const int BS> struct Solver : SolverBase {
     dbg(ans, h);
 
     // mid
-    repp(i, lb + 1, rb) { ans += queryB(i, BS, h); }
+    repp(i, lb + 1, rb) {
+      ans += queryB(i, BS, h);
+    }
 
     dbg(ans, h);
 
@@ -199,7 +204,9 @@ struct Rmq {
   vector<pair<int, int>> t;
   Rmq() : t(n) {}
   Rmq(vi tt) : t(2 * n) {
-    rep(i, n) { t[n + i] = {tt[i], i}; }
+    rep(i, n) {
+      t[n + i] = {tt[i], i};
+    }
 
     for (int i = n - 1; i > 0; i--) {
       t[i] = max(t[i * 2], t[i * 2 + 1]);
@@ -238,13 +245,12 @@ static constexpr array BLOCKS{
 
 template <size_t... Is>
 constexpr auto createFactoryArray(index_sequence<Is...>) {
-  return array<SolverBase *(*)(vi), sizeof...(Is)>{
-      [](vi h) -> SolverBase * {
-        return new Solver<BLOCKS[Is].first>(h);
-      }...};
+  return array<SolverBase* (*)(vi), sizeof...(Is)>{[](vi h) -> SolverBase* {
+    return new Solver<BLOCKS[Is].first>(h);
+  }...};
 }
 
-SolverBase *createSolver(int per, vi h) {
+SolverBase* createSolver(int per, vi h) {
   int index = -1;
   rep(i, sz(BLOCKS)) {
     if (per <= BLOCKS[i].second) {
@@ -252,8 +258,9 @@ SolverBase *createSolver(int per, vi h) {
     }
   }
 
-  static constexpr auto factories =
-      createFactoryArray(make_index_sequence<BLOCKS.size()>{});
+  static constexpr auto factories = createFactoryArray(
+      make_index_sequence<BLOCKS.size()>{}
+  );
 
   return factories[index](h);
 }
@@ -267,7 +274,9 @@ int main() {
   dbg(n, q);
 
   vi h(n);
-  rep(i, n) { cin >> h[i]; }
+  rep(i, n) {
+    cin >> h[i];
+  }
 
   int t1 = 0;
 
@@ -285,8 +294,8 @@ int main() {
 
   dbg(h);
 
-  SolverBase *s;
-  SolverBase *rs;
+  SolverBase* s;
+  SolverBase* rs;
   s = createSolver(block, h);
   reverse(h.begin(), h.end());
   rs = createSolver(block, h);

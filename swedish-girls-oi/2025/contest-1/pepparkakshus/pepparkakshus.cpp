@@ -1,9 +1,9 @@
 #include <bits/stdc++.h>
 
 #ifdef DBG
-#include "../../../../dbg.h"
+  #include "../../../../dbg.h"
 #else
-#define dbg(...)
+  #define dbg(...)
 #endif
 
 using namespace std;
@@ -19,10 +19,13 @@ int main() {
   int n, m, g;
   cin >> n >> m >> g;
 
-  if (n < m) swap(n, m);
+  if (n < m)
+    swap(n, m);
 
   vi gg(g);
-  rep(i, g) { cin >> gg[i]; }
+  rep(i, g) {
+    cin >> gg[i];
+  }
 
   sort(all(gg));
 

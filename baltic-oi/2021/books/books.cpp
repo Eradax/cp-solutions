@@ -88,8 +88,12 @@ void solve(int N, int K, ll A, int S) {
 
     if (A <= sum && sum <= 2 * A) {
       vi ans(K);
-      rep(j, K - i - 1) { ans[j] = i + 1 + j + 1; }
-      rep(j, i + 1) { ans[K - i - 1 + j] = f - i + j; }
+      rep(j, K - i - 1) {
+        ans[j] = i + 1 + j + 1;
+      }
+      rep(j, i + 1) {
+        ans[K - i - 1 + j] = f - i + j;
+      }
 
       answer(ans);
       return;
@@ -101,4 +105,4 @@ void solve(int N, int K, ll A, int S) {
   impossible();
   return;
 }
-} // namespace sol
+}  // namespace sol

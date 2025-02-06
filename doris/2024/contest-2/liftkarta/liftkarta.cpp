@@ -1,9 +1,9 @@
 #include <bits/stdc++.h>
 
 #ifdef DBG
-#include "../../../dbg.h"
+  #include "../../../dbg.h"
 #else
-#define dbg(...)
+  #define dbg(...)
 #endif
 
 /*
@@ -166,7 +166,7 @@ int main() {
 
   sort(edg.begin(), edg.end());
 
-  for (auto &e : edg) {
+  for (auto& e : edg) {
     auto [s, u, v] = e;
     if (uf.sameSet(u, v))
       continue;
@@ -175,7 +175,7 @@ int main() {
     uf.join(u, v);
   }
 
-  for (auto &i : adj_tree) {
+  for (auto& i : adj_tree) {
     dbg(i);
   }
 

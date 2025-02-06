@@ -1,9 +1,9 @@
 #include <bits/stdc++.h>
 
 #ifdef DBG
-#include "../../../../dbg.h"
+  #include "../../../../dbg.h"
 #else
-#define dbg(...)
+  #define dbg(...)
 #endif
 
 /*
@@ -25,7 +25,7 @@ using vvi = vector<vi>;
 #define rall(c) c.rbegin(), c.rend()
 #define sz(c) ((int)c.size())
 
-int len(int a) { // sizeof(int) - clz(a)
+int len(int a) {  // sizeof(int) - clz(a)
   int ans = 0;
 
   while (a >= (1 << ans)) {
@@ -35,9 +35,11 @@ int len(int a) { // sizeof(int) - clz(a)
   return ans;
 }
 
-int add_cost(int a) { // popcnt
+int add_cost(int a) {  // popcnt
   int ans = 0;
-  rep(i, len(a)) { ans += (a & (1 << i)) > 0; }
+  rep(i, len(a)) {
+    ans += (a & (1 << i)) > 0;
+  }
 
   return ans;
 }
@@ -94,12 +96,13 @@ int solve(int i, int mask) {
   int ans = INF;
 
   rep(s, 1 << k) {
-    if (solve(i - 1, s) == -1) continue;
+    if (solve(i - 1, s) == -1)
+      continue;
 
     ans = min(ans, solve(i - 1, s) + cost(mask, s));
 
     if (ans == -1) {
-      dbg(i, mask, ans, s, solve(i -1, s), cost(mask, s));
+      dbg(i, mask, ans, s, solve(i - 1, s), cost(mask, s));
     }
   }
 
@@ -112,12 +115,20 @@ int main() {
   cin >> n >> k;
 
   v.resize(n);
-  rep(i, n) { cin >> v[i]; }
-  rep(i, n) { v[i] = v[i] / 20 - 1; }
+  rep(i, n) {
+    cin >> v[i];
+  }
+  rep(i, n) {
+    v[i] = v[i] / 20 - 1;
+  }
 
   w.resize(k);
-  rep(i, k) { cin >> w[i]; }
-  rep(i, k) { w[i] /= 10; }
+  rep(i, k) {
+    cin >> w[i];
+  }
+  rep(i, k) {
+    w[i] /= 10;
+  }
 
   sort(rall(w));
 
@@ -126,7 +137,8 @@ int main() {
   int ans = INF;
 
   rep(s, 1 << k) {
-    if (solve(n - 1, s) == -1) continue;
+    if (solve(n - 1, s) == -1)
+      continue;
 
     ans = min(ans, solve(n - 1, s) + cost(0, s));
   }

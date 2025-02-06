@@ -1,9 +1,9 @@
 #include <bits/stdc++.h>
 
 #ifdef DBG
-#include "../../../../dbg.h"
+  #include "../../../../dbg.h"
 #else
-#define dbg(...)
+  #define dbg(...)
 #endif
 
 /*
@@ -27,7 +27,9 @@ int main() {
   cin >> n;
 
   vector<int> t(n);
-  rep(i, n) { cin >> t[i]; }
+  rep(i, n) {
+    cin >> t[i];
+  }
 
   dp[0] = 1;
 

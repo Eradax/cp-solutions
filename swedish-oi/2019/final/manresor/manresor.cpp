@@ -1,9 +1,9 @@
 #include <bits/stdc++.h>
 
 #ifdef DBG
-#include "../../../../dbg.h"
+  #include "../../../../dbg.h"
 #else
-#define dbg(...)
+  #define dbg(...)
 #endif
 
 #pragma GCC optimize("Ofast,inline,unroll-loops")
@@ -28,7 +28,25 @@ using vi = vector<int>;
 #define setcontains(c, i) (c.find(i) != c.end())
 
 #define gc() getchar_unlocked()
-inline void read(int& v) { v = 0; int sign = 1; char c = gc(); if (c == '-') { sign = -1; } else { v += c - '0'; } while ((c = gc()) && c != ' ' && c != '\n') { if (c == EOF) { v = -1; return; } v *= 10; v += c - '0'; } v *= sign; }
+inline void read(int& v) {
+  v = 0;
+  int sign = 1;
+  char c = gc();
+  if (c == '-') {
+    sign = -1;
+  } else {
+    v += c - '0';
+  }
+  while ((c = gc()) && c != ' ' && c != '\n') {
+    if (c == EOF) {
+      v = -1;
+      return;
+    }
+    v *= 10;
+    v += c - '0';
+  }
+  v *= sign;
+}
 
 int main() {
   cin.tie(0)->sync_with_stdio(0);
@@ -46,7 +64,9 @@ int main() {
     d[i]--;
     D[d[i]] = 1;
   }
-  rep(i, m) { read(g[i]); }
+  rep(i, m) {
+    read(g[i]);
+  }
   rep(i, m) read(p[i]);
   rep(i, k) {
     read(r[i]);

@@ -1,9 +1,9 @@
 #include <bits/stdc++.h>
 
 #ifdef DBG
-#include "../../dbg.h"
+  #include "../../dbg.h"
 #else
-#define dbg(...)
+  #define dbg(...)
 #endif
 
 /*
@@ -28,7 +28,8 @@ int main() {
 
   vector<vector<bool>> vis(sz(w1) + 10, vector<bool>(sz(w2) + 10, 0));
   vector<vector<pair<int, int>>> par(
-      sz(w1) + 10, vector<pair<int, int>>(sz(w2) + 10, {-1, -1}));
+      sz(w1) + 10, vector<pair<int, int>>(sz(w2) + 10, {-1, -1})
+  );
 
   queue<pair<int, int>> q;
 
@@ -76,12 +77,11 @@ int main() {
     }
   }
 
-  for (auto &i : par) {
+  for (auto& i : par) {
     dbg(i);
   }
 
-
-  for (auto &i : vis) {
+  for (auto& i : vis) {
     dbg(i);
   }
 
@@ -99,7 +99,7 @@ int main() {
 
     dbg(ni, nj);
 
-    if (ni + 1 ==  i && nj + 1 == j) {
+    if (ni + 1 == i && nj + 1 == j) {
       ans += w1[ni];
     } else if (ni + 1 == i) {
       ans += w1[ni];

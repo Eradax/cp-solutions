@@ -1,9 +1,9 @@
 #include <bits/stdc++.h>
 
 #ifdef DBG
-#include "../../dbg.h"
+  #include "../../dbg.h"
 #else
-#define dbg(...)
+  #define dbg(...)
 #endif
 
 /*
@@ -21,14 +21,14 @@ using vvi = vector<vi>;
 #define rep(i, n) for (int i = 0; i < (n); i++)
 #define sz(c) ((int)c.size())
 
-inline int acc(vvi *v, int a, int b) {
+inline int acc(vvi* v, int a, int b) {
   if (a < 0 || a >= v->size() || b < 0 || b >= v->at(0).size()) {
     return 0;
   }
   return v->at(a).at(b);
 }
 
-inline int block(vvi *v, int a, int b, int l, int r) {
+inline int block(vvi* v, int a, int b, int l, int r) {
   if (a > l || b > r)
     return 0;
 
