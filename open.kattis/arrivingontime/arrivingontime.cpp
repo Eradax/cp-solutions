@@ -1,83 +1,102 @@
 #include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/priority_queue.hpp>
+
 using namespace std;
 
 typedef long long ll;
 
-typedef vector<ll> vll;
-typedef vector<vll> vvll;
+typedef vector<ll> vi;
+typedef vector<vi> vvi;
 
 typedef pair<ll, ll> p2;
 typedef vector<p2> vp2;
 typedef vector<vp2> vvp2;
 
-ll stops, lines, meeting;
+#define repe(i, c) for (auto &i : c)
+#define sz(c) ((int)c.size())
 
-vvp2 graph;
-vvp2 times;
+ll INF = 1e18;
 
-vll dist;
+struct Line {
+  ll start, end, first, cycle, length;
 
-priority_queue<p2, vp2, greater<p2>> pq;
+  Line(ll start, ll end, ll first, ll cycle, ll length)
+      : start(start), end(end), first(first), cycle(cycle), length(length) {}
+};
 
-ll waitTime(ll time, ll start, ll end) {
-    if (time <= times[start][end].first) {
-        return times[start][end].first - time;
-    } else {
-        ll firstTrain = time - times[start][end].first;
-        ll lastTrain = firstTrain % times[start][end].second;
+vector<vector<Line>> adj;
 
-        return (lastTrain == 0) ? 0 : (times[start][end].second - lastTrain);
-    }
+ll waitTime(ll time, p2 timeinfo) {
+  if (time <= timeinfo.first) {
+    return timeinfo.first - time;
+  } else {
+    ll firstTrain = time - timeinfo.first;
+    ll lastTrain = firstTrain % timeinfo.second;
+
+    return (lastTrain == 0) ? 0 : (timeinfo.second - lastTrain);
+  }
 }
 
-ll dijkstra(ll startTime) {
-	dist.clear();
-	dist.resize(stops, 1e18);
-    dist[0] = startTime;
-    pq.push({startTime, 0});
-    while (!pq.empty()) {
-		ll len, v;
-        tie(len,v) = pq.top(); pq.pop();
+ll djikstra(ll t) {
+  int s = 0;
+  int n = sz(adj);
+  vi seen(n);
+  vi dist(n, INF);
+  dist[s] = t;
+  ll di;
 
-        if (len == dist[v]) {
-            for (auto node: graph[v]) {
-                if (node.second + len + waitTime(len, v, node.first) < dist[node.first]) {
-                    dist[node.first] = node.second + len + waitTime(len, v, node.first);
-                    pq.push({dist[node.first], node.first});
-                }
-            }
-        }
+  __gnu_pbds::priority_queue<pair<ll, int>> q;
+  vector<decltype(q)::point_iterator> its(n);
+  q.push({t, s});
+
+  while (!q.empty()) {
+    s = q.top().second;
+    q.pop();
+    seen[s] = 1;
+    di = dist[s];
+    repe(e, adj[s]) if (!seen[e.first]) {
+      ll val = di + e.length + waitTime(di, {e.first, e.cycle});
+      if (val < dist[e.end]) {
+        dist[e.end] = val;
+        if (its[e.end] == q.end())
+          its[e.end] = q.push({-dist[e.end], e.end});
+        else
+          q.modify(its[e.end], {-dist[e.end], e.end});
+      }
     }
-    return dist.back();
+  }
+
+  return dist[n - 1];
 }
 
 int main() {
-    cin >> stops >> lines >> meeting;
-    graph.resize(stops, vp2());
-    times.resize(stops, vp2(stops));
+  cin.tie(0)->sync_with_stdio(0);
 
-    for (int i=0; i<lines; i++) {
-        ll start, end, first, cycle, length;
-        cin >> start >> end >> first >> cycle >> length;
+  ll n, m, s;
+  cin >> n >> m >> s;
+  adj.resize(n);
 
-        graph[start].push_back({end, length});
-        times[start][end] = {first, cycle};
-    }
+  for (int i = 0; i < m; i++) {
+    ll start, end, first, cycle, length;
+    cin >> start >> end >> first >> cycle >> length;
 
-	dist.resize(stops, 1e18);
-    ll lo=0, hi=meeting;
-    while (lo < hi) {
-        ll mi = (lo+hi+1)/2;
-        if (dijkstra(mi) > meeting) {
-            hi = mi-1;
-        } else {
-            lo = mi;
-        }
-    }
+    adj[start].emplace_back(start, end, first, cycle, length);
+  }
 
-    if (dijkstra(lo) <= meeting) {
-        cout << lo << endl;
+  ll lo = 0, hi = s;
+  while (lo < hi) {
+    ll mi = (lo + hi + 1) / 2;
+    if (djikstra(mi) > s) {
+      hi = mi - 1;
     } else {
-        cout << "impossible" << endl;
+      lo = mi;
     }
+  }
+
+  if (djikstra(lo) <= s) {
+    cout << lo << endl;
+  } else {
+    cout << "impossible" << endl;
+  }
 }
