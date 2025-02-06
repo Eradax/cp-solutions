@@ -1,4 +1,6 @@
 #include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/priority_queue.hpp>
 
 #ifdef DBG
 #include "../../../../dbg.h"
@@ -34,68 +36,90 @@ signed main() {
   int n, m;
   cin >> n >> m;
 
-  assert(n == 3);
+  vvi adj(n);
 
-  vvpi abtoc;
-  int atob = INF, atoc = INF, btoc = INF, btoa = INF;
+  vvpi ex;
 
-  rep(i, m) {
+  rep(j, m) {
     int ri, ki;
     cin >> ri >> ki;
 
     vpi vals(ki);
-    rep(i, ki) { cin >> vals[i].first >> vals[i].second; }
+    rep(i, ki) {
+      cin >> vals[i].first >> vals[i].second;
+      adj[vals[i].second].push_back(j);
+    }
+    vals.emplace_back(ri, ki);
 
-    if (ri == 0) {
-      if (ki > 1 || vals[0].second != 1)
+    ex.push_back(vals);
+  }
+
+  dbg(adj, ex);
+
+  for (auto e : ex) {
+    dbg(e);
+  }
+
+  int s;
+
+  vi seen(n);
+  vi dist(n, INF);
+
+  dist[0] = 1;
+  ll di;
+
+  __gnu_pbds::priority_queue<pair<ll, int>> q;
+  vector<decltype(q)::point_iterator> its(n);
+
+  q.push({1, 0});
+
+  while (!q.empty()) {
+    s = q.top().second;
+    q.pop();
+
+    dbg(s);
+    dbg(q);
+
+    seen[s] = 1;
+    di = dist[s];
+
+    for (auto e : adj[s]) {
+      vpi* edge = &ex[e];
+
+      dbg(edge);
+
+      dbg(edge->back().second);
+      edge->back().second--;
+      dbg(edge->back().second);
+
+      if (seen[edge->back().first]) {
         continue;
-      btoa = min(btoa, vals[0].first);
-    } else if (ri == 1) {
-      if (ki > 1 || vals[0].second != 0)
+      }
+
+      if (edge->back().second > 0) {
         continue;
-      atob = min(atob, vals[0].first);
-    } else if (ri == 2) {
-      if (ki == 1 && vals[0].second == 0) {
-        atoc = min(atoc, vals[0].first);
-      } else if (ki == 1 && vals[0].second == 1) {
-        btoc = min(btoc, vals[0].first);
-      } else if (ki == 2) {
-        abtoc.push_back(vals);
+      }
+
+      ll weight = 0;
+      rep(i, (int)edge->size() - 1) {
+        weight += edge->at(i).first * dist[edge->at(i).second];
+      }
+
+      ll val = weight;
+
+      if (val < dist[edge->back().first]) {
+        dist[edge->back().first] = val;
+
+        if (its[edge->back().first] == q.end()) {
+         its[edge->back().first] = q.push({-val, edge->back().first});
+        } else {
+          q.modify(its[edge->back().first], {-val, edge->back().first});
+        }
       }
     }
   }
 
-  dbg(atob, atoc, btoc, btoa, abtoc);
+  dbg(dist);
 
-  int ans = INF;
-  if (atoc) ans = min(ans, atoc);
-
-  if (atob < btoa && btoa < INF && atob < INF) {
-    ans = min(ans, atob);
-  }
-
-  if (atob + btoc < INF) ans = min(ans, atob * btoc);
-
-  for (auto i : abtoc) {
-    int cost;
-    if (i[0].second == 0) {
-      cost = i[0].first;
-    }
-
-    if (i[1].second == 0) {
-      cost = i[1].first;
-    }
-
-    if (i[0].second == 1) {
-      cost += i[0].first * atob;
-    }
-
-    if (i[1].second == 1) {
-      cost += i[1].first * atob;
-    }
-
-    ans = min(ans, cost);
-  }
-
-  cout << ans << endl;
+  cout << dist[n-1] << endl;
 }
