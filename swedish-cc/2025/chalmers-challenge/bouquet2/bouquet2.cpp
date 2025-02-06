@@ -12,9 +12,14 @@ using vd = vector<ld>;
 
 #define rep(i, n) for (int i = 0; i < (n); i++)
 
-vector<vector<char>> orders = {{'R', 'G', 'B'}, {'R', 'B', 'G'},
-                               {'G', 'R', 'B'}, {'G', 'B', 'R'},
-                               {'B', 'R', 'G'}, {'B', 'G', 'R'}};
+vector<vector<char>> orders = {
+    {'R', 'G', 'B'},
+    {'R', 'B', 'G'},
+    {'G', 'R', 'B'},
+    {'G', 'B', 'R'},
+    {'B', 'R', 'G'},
+    {'B', 'G', 'R'}
+};
 
 struct F {
   int x, y;
@@ -22,13 +27,13 @@ struct F {
   F(int x, int y) : x(x), y(y) {}
 };
 
-ld dist(const F &a, const F &b) {
+ld dist(const F& a, const F& b) {
   int dx = a.x - b.x;
   int dy = a.y - b.y;
   return sqrt(dx * dx + dy * dy);
 }
 
-ld distOrigin(const F &a) {
+ld distOrigin(const F& a) {
   return sqrt(1LL * a.x * a.x + 1LL * a.y * a.y);
 }
 
@@ -52,7 +57,7 @@ signed main() {
       B.emplace_back(x, y);
   }
 
-  auto gFs = [&](char c) -> vector<F> & {
+  auto gFs = [&](char c) -> vector<F>& {
     if (c == 'R')
       return R;
     if (c == 'G')
@@ -63,12 +68,14 @@ signed main() {
   ld best = numeric_limits<ld>::infinity();
 
   for (auto order : orders) {
-    const vector<F> &first = gFs(order[0]);
-    const vector<F> &second = gFs(order[1]);
-    const vector<F> &third = gFs(order[2]);
+    const vector<F>& first = gFs(order[0]);
+    const vector<F>& second = gFs(order[1]);
+    const vector<F>& third = gFs(order[2]);
 
     vd cost1(first.size());
-    rep(i, first.size()) { cost1[i] = distOrigin(first[i]); }
+    rep(i, first.size()) {
+      cost1[i] = distOrigin(first[i]);
+    }
 
     vd cost2(second.size(), numeric_limits<ld>::infinity());
     rep(j, second.size()) {

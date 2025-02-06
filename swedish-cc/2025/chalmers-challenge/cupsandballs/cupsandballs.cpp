@@ -38,8 +38,10 @@ int main() {
     b = g;
   }
 
-  if (a < 0) a+=3;
-  if (b < 0) b+=3;
+  if (a < 0)
+    a += 3;
+  if (b < 0)
+    b += 3;
 
-  cout << a+1 << " " << b+1 << endl;
+  cout << a + 1 << " " << b + 1 << endl;
 }

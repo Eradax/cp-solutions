@@ -1,9 +1,9 @@
 #include <bits/stdc++.h>
 
 #ifdef DBG
-#inlcude "../../dbg.h"
+  #inlcude "../../dbg.h"
 #else
-#define dbg(...)
+  #define dbg(...)
 #endif
 
 using namespace std;
@@ -22,7 +22,7 @@ struct T {
 
     i += n;
     t[i] = 1 - t[i];
-    for (i/=2; i > 0; i /= 2) {
+    for (i /= 2; i > 0; i /= 2) {
       t[i] = t[2 * i] + t[2 * i + 1];
     }
   }

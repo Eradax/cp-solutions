@@ -1,9 +1,9 @@
 #include <bits/stdc++.h>
 
 #ifdef DBG
-#include "../../../../dbg.h"
+  #include "../../../../dbg.h"
 #else
-#define dbg(...)
+  #define dbg(...)
 #endif
 
 using namespace std;
@@ -12,8 +12,8 @@ using ld = long double;
 using ll = long long;
 
 using pi = pair<int, int>;
-vector<pi> dirs = {{-1, 0}, {-1, 1}, {-1, -1}, {1, 0},
-                   {1, -1}, {1, 1},  {0, 1},   {0, -1}};
+vector<pi> dirs =
+    {{-1, 0}, {-1, 1}, {-1, -1}, {1, 0}, {1, -1}, {1, 1}, {0, 1}, {0, -1}};
 
 #define rep(i, n) for (int i = 0; i < (n); i++)
 #define repp(i, s, n) for (int i = s; i < (n); i++)

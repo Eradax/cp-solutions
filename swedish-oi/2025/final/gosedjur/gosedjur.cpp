@@ -1,9 +1,9 @@
 #include <bits/stdc++.h>
 
 #ifdef DBG
-#include "../../../../dbg.h"
+  #include "../../../../dbg.h"
 #else
-#define dbg(...)
+  #define dbg(...)
 #endif
 
 using namespace std;
@@ -172,7 +172,9 @@ int main() {
       return cyc[u] = f;
     };
 
-    rep(i, n) { dfs(i); }
+    rep(i, n) {
+      dfs(i);
+    }
   }
 
   vi L(n), U(n), R(n);
@@ -255,6 +257,8 @@ int main() {
     ans[u] = L[u] + U[u] + R[u];
   }
 
-  rep(i, n) { cout << ans[i] << ' '; }
+  rep(i, n) {
+    cout << ans[i] << ' ';
+  }
   cout << endl;
 }

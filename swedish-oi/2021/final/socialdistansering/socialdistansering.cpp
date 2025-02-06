@@ -1,9 +1,9 @@
 #include <bits/stdc++.h>
 
 #ifdef DBG
-#include "../../../../dbg.h"
+  #include "../../../../dbg.h"
 #else
-#define dbg(...)
+  #define dbg(...)
 #endif
 
 using namespace std;
@@ -23,7 +23,9 @@ int main() {
   cin >> n >> m >> k;
 
   vector<pair<ll, ll>> tmp(m);
-  rep(i, m) { cin >> tmp[i].first >> tmp[i].second; }
+  rep(i, m) {
+    cin >> tmp[i].first >> tmp[i].second;
+  }
   sort(all(tmp));
 
   ll prev = -1;

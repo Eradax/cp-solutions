@@ -1,9 +1,9 @@
 #include <bits/stdc++.h>
 
 #ifdef DBG
-#include "../../../../dbg.h"
+  #include "../../../../dbg.h"
 #else
-#define dbg(...)
+  #define dbg(...)
 #endif
 
 using namespace std;
@@ -35,7 +35,7 @@ int main() {
 
   vvi adj(n);
 
-  rep(i, n-1) {
+  rep(i, n - 1) {
     int u, v;
     cin >> u >> v;
     u--, v--;
@@ -103,5 +103,7 @@ int main() {
     dbg(aa, bb, cc);
   }
 
-  rep(i, q) { cout << (ans[i] > 0 ? "Yes" : "No") << endl; }
+  rep(i, q) {
+    cout << (ans[i] > 0 ? "Yes" : "No") << endl;
+  }
 }

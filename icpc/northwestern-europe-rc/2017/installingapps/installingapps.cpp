@@ -1,9 +1,9 @@
 #include <bits/stdc++.h>
 
 #ifdef DBG
-#include "../../../dbg.h"
+  #include "../../../dbg.h"
 #else
-#define dbg(...)
+  #define dbg(...)
 #endif
 
 /*
@@ -60,7 +60,7 @@ int main() {
         dp[i][j] = INF;
         p[i][j] = -1;
       } else if (i == 0) {
-        dp[i][j] = (max(d[idx], s[idx]) <= c) ? s[idx] : INF; // j == 1
+        dp[i][j] = (max(d[idx], s[idx]) <= c) ? s[idx] : INF;  // j == 1
         p[i][j] = (max(d[idx], s[idx]) <= c) ? idx : -1;
       } else {
         int v1, v2;
@@ -79,9 +79,13 @@ int main() {
     }
   }
 
-  rep(i, n) { dbg(dp[i]); }
+  rep(i, n) {
+    dbg(dp[i]);
+  }
 
-  rep(i, n) { dbg(p[i]); }
+  rep(i, n) {
+    dbg(p[i]);
+  }
 
   int i = n - 1;
   int j = n;
@@ -101,7 +105,7 @@ int main() {
 
   reverse(ans.begin(), ans.end());
 
-  for (auto &e : ans) {
+  for (auto& e : ans) {
     cout << e << " ";
   }
   cout << endl;

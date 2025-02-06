@@ -11,7 +11,7 @@ typedef pair<int, int> p2;
 
 #define rep(i, high) for (int i = 0; i < high; i++)
 #define repp(i, low, high) for (int i = low; i < high; i++)
-#define repe(i, container) for (auto &i : container)
+#define repe(i, container) for (auto& i : container)
 #define per(i, high) for (int i = high - 1; i >= 0; i--)
 
 #define clz(x) __builtin_clz(x)
@@ -31,9 +31,13 @@ inline void fast() {
 vi bh(0);
 int hsize = 0;
 
-int getMax() { return bh[0]; }
+int getMax() {
+  return bh[0];
+}
 
-int getSize() { return hsize; }
+int getSize() {
+  return hsize;
+}
 
 void insert(int element) {
   // repe(i, bh) {
@@ -74,7 +78,7 @@ void removeMax() {
 
   if (lchild >= hsize) {
     return;
-  }else if (rchild >= hsize) {
+  } else if (rchild >= hsize) {
     if (!(bh[idx] >= bh[lchild])) {
       int tmp = bh[lchild];
       bh[lchild] = bh[idx];
@@ -93,12 +97,12 @@ void removeMax() {
     int tmp = bh[max_child];
     bh[max_child] = bh[idx];
     bh[idx] = tmp;
-    
+
     idx = max_child;
 
     if (lchild >= hsize) {
       return;
-    }else if (rchild >= hsize) {
+    } else if (rchild >= hsize) {
       if (!(bh[idx] >= bh[lchild])) {
         int tmp = bh[lchild];
         bh[lchild] = bh[idx];

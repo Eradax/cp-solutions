@@ -1,9 +1,9 @@
 #include <bits/stdc++.h>
 
 #ifdef DBG
-#include "../../../../dbg.h"
+  #include "../../../../dbg.h"
 #else
-#define dbg(...)
+  #define dbg(...)
 #endif
 
 using namespace std;
@@ -83,7 +83,7 @@ signed main() {
 
     bool f = 0;
     for (auto v : adj[u]) {
-        f |= dfs(v);
+      f |= dfs(v);
     }
 
     col[u] = 2;
@@ -107,7 +107,7 @@ signed main() {
 
     vis[u] = 1;
 
-    bs *ans = &cnt[u];
+    bs* ans = &cnt[u];
 
     for (auto v : adj[u]) {
       ans->set(v);
@@ -123,7 +123,6 @@ signed main() {
     dfs(i);
   }
 
-
   dbg(cyc);
 
   rep(i, n) {
@@ -134,6 +133,8 @@ signed main() {
     }
   }
 
-  rep(i, n) { cout << ans[i] << ' '; }
+  rep(i, n) {
+    cout << ans[i] << ' ';
+  }
   cout << endl;
 }

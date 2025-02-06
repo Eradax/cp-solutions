@@ -1,9 +1,9 @@
 #include <bits/stdc++.h>
 
 #ifdef DBG
-#include "../../../../dbg.h"
+  #include "../../../../dbg.h"
 #else
-#define dbg(...)
+  #define dbg(...)
 #endif
 
 using namespace std;
@@ -33,7 +33,9 @@ int query(int a) {
 
 void answer(vi v) {
   cout << "! " << sz(v) << endl;
-  rep(i, sz(v)) { cout << v[i] << " "; }
+  rep(i, sz(v)) {
+    cout << v[i] << " ";
+  }
   cout << endl;
 
   exit(0);
@@ -54,7 +56,8 @@ vi solve(int lo, int hi) {
     for (auto i : solve(lo, mi - 1)) {
       ans.push_back(i);
     }
-    if (lo <= res && res <= hi) ans.push_back(res);
+    if (lo <= res && res <= hi)
+      ans.push_back(res);
     for (auto i : solve(mi + 1, hi)) {
       ans.push_back(i);
     }
@@ -62,7 +65,8 @@ vi solve(int lo, int hi) {
     for (auto i : solve(lo, res - 1)) {
       ans.push_back(i);
     }
-    if (lo <= res && res <= hi) ans.push_back(res);
+    if (lo <= res && res <= hi)
+      ans.push_back(res);
     for (auto i : solve(mi + 1, hi)) {
       ans.push_back(i);
     }
@@ -70,7 +74,8 @@ vi solve(int lo, int hi) {
     for (auto i : solve(0, mi - 1)) {
       ans.push_back(i);
     }
-    if (lo <= res && res <= hi) ans.push_back(res);
+    if (lo <= res && res <= hi)
+      ans.push_back(res);
     for (auto i : solve(res + 1, hi)) {
       ans.push_back(i);
     }
@@ -88,8 +93,8 @@ signed main() {
   vi ank;
 
   int f = query(-1);
-  int l = query(1e9+1);
-  repp(i, f, l+1) {
+  int l = query(1e9 + 1);
+  repp(i, f, l + 1) {
     ank.push_back(i);
   }
 

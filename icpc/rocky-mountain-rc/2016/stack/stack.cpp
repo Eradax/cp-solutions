@@ -1,9 +1,9 @@
 #include <bits/stdc++.h>
 
 #ifdef DBG
-#include "../../../dbg.h"
+  #include "../../../dbg.h"
 #else
-#define dbg(...)
+  #define dbg(...)
 #endif
 
 using namespace std;
@@ -58,7 +58,7 @@ int main() {
         repp(split, i + 1, j + 1) {
           if (line[i] != line[split])
             continue;
-          
+
           int v1 = dp[i][split - 1];
           int v2 = (split + 1 < l && split + 1 <= j ? dp[split + 1][j] : 0);
 

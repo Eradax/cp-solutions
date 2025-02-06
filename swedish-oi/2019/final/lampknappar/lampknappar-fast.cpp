@@ -8,8 +8,8 @@
 
 using namespace std;
 
-#define rep(i, n) for (int (i)=0; (i)<(n); (i)++)
-#define repe(i, c) for (auto (i): (c))
+#define rep(i, n) for (int(i) = 0; (i) < (n); (i)++)
+#define repe(i, c) for (auto(i) : (c))
 
 #define min(a, b) ((a) <= (b) ? (a) : (b))
 #define sz(c) ((int)c.size())
@@ -22,105 +22,102 @@ const int INF = 1e9;
 const int N = 500;
 const int M = 2000;
 
-
-
 int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(NULL);
+  ios::sync_with_stdio(false);
+  cin.tie(NULL);
 
-    int n;
+  int n;
 
-    cin >> n;
+  cin >> n;
 
+  // vvi adj(n), jda(n);
 
-    // vvi adj(n), jda(n);
+  array<vi, N> adj;
+  array<vi, N> jda;
 
-    array<vi, N> adj; 
-    array<vi, N> jda;
- 
-    array<array<int, N>, N> dists = {};
+  array<array<int, N>, N> dists = {};
 
-    // vvi dists(n, vi(n, -1));
+  // vvi dists(n, vi(n, -1));
 
-    rep(i, n) {
-        int s;
-        cin >> s;
+  rep(i, n) {
+    int s;
+    cin >> s;
 
-        rep(j, s) {
-            int a;
-            cin >> a;
+    rep(j, s) {
+      int a;
+      cin >> a;
 
-            a--;
+      a--;
 
-            adj[i].emplace_back(a);
-            jda[a].emplace_back(i);
-        }
+      adj[i].emplace_back(a);
+      jda[a].emplace_back(i);
     }
+  }
 
-    dbg(adj);
+  dbg(adj);
 
-    rep(i, n) {
-        queue<int> q;
+  rep(i, n) {
+    queue<int> q;
 
-        dists[i][i] = 1;
-        q.emplace(i);
+    dists[i][i] = 1;
+    q.emplace(i);
 
+    while (!q.empty()) {
+      auto u = q.front();
+      q.pop();
 
-        while (!q.empty()) {
-            auto u = q.front();
-            q.pop();
-
-            repe(v, adj[u]) {
-                if (dists[i][v] == 0) {
-                    dists[i][v] = dists[i][u]+1;
-                    q.emplace(v);
-                }
-            }
+      repe(v, adj[u]) {
+        if (dists[i][v] == 0) {
+          dists[i][v] = dists[i][u] + 1;
+          q.emplace(v);
         }
+      }
     }
-    
-    // rep(k, n) rep(i, n) rep(j, n) dists[i][j] = min(dists[i][j], dists[i][k] + dists[k][j]);
+  }
 
+  // rep(k, n) rep(i, n) rep(j, n) dists[i][j] = min(dists[i][j], dists[i][k] +
+  // dists[k][j]);
 
+  if (dists[n - 1][0] == 0 || dists[0][n - 1] == 0) {
+    cout << "nej" << endl;
+    return 0;
+  }
 
+  array<vector<pii>, N> qs;
+  qs[0].emplace_back(0, 0);
 
-    if (dists[n-1][0] == 0 || dists[0][n-1] == 0) {
-        cout << "nej" << endl;
+  array<array<bool, N>, N> seen = {};
+  rep(w, n) {
+    int j = 0;
+    while (j < sz(qs[w])) {
+      auto [u, v] = qs[w][j];
+      j++;
+
+      if (seen[u][v])
+        continue;
+      if (u == n - 1 && v == n - 1) {
+        cout << w << endl;
         return 0;
+      }
+
+      seen[u][v] = true;
+
+      repe(up, adj[u]) {
+        int w1 = !(up == v);
+        if (w + w1 <= n - 1 && !seen[up][v])
+          qs[w + w1].emplace_back(up, v);
+      }
+
+      repe(vp, jda[v]) {
+        int w1 = !(vp == u);
+        if (w + w1 <= n - 1 && !seen[u][vp])
+          qs[w + w1].emplace_back(u, vp);
+      }
+
+      if (u != v && dists[u][v] - 1 > 0) {
+        if (w + dists[u][v] - 2 <= n - 1 && !seen[v][u])
+          qs[w + dists[u][v] - 2].emplace_back(v, u);
+      }
     }
-
-    array<vector<pii>, N> qs;
-    qs[0].emplace_back(0, 0);
-
-    array<array<bool, N>, N> seen = {};
-    rep(w, n) {
-        int j = 0;
-        while (j < sz(qs[w])) {
-            auto [u, v] = qs[w][j];
-            j++;
-
-            if (seen[u][v]) continue;
-            if (u == n-1 && v == n-1) {
-                cout << w << endl;
-                return 0;
-            }
-
-            seen[u][v] = true;
-
-            repe(up, adj[u]) {
-                int w1 = !(up == v);
-                if (w+w1 <= n-1 && !seen[up][v]) qs[w+w1].emplace_back(up, v);
-            }
-
-            repe(vp, jda[v]) {
-                int w1 = !(vp == u);
-                if (w+w1 <= n-1 && !seen[u][vp]) qs[w+w1].emplace_back(u, vp);
-            }
-
-            if (u != v && dists[u][v]-1 > 0) {
-                if (w + dists[u][v]-2 <= n-1 && !seen[v][u]) qs[w + dists[u][v]-2].emplace_back(v, u);
-            }
-        }
-    }
+  }
 }
-

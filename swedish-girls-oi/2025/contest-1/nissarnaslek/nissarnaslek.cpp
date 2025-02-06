@@ -1,14 +1,14 @@
 #include <bits/stdc++.h>
 
 #ifdef DBG
-#include "../../../../dbg.h"
+  #include "../../../../dbg.h"
 #else
-#define dbg(...)
+  #define dbg(...)
 #endif
 
 /*
 source:
-    
+
 links:
     https://egoi25-qual.kattis.com/contests/egoi25-jul/problems/nissarnaslek
 */
@@ -24,6 +24,6 @@ int main() {
     string word;
     cin >> word;
     word[0] = 'a' + (word[0] == 'a');
-    cout << word << endl << flush; 
+    cout << word << endl << flush;
   }
 }

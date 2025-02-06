@@ -18,9 +18,8 @@ At the end, the grader prints your verdict.
 
 #include <bits/stdc++.h>
 
-#include "brute.cpp"
 #include "books.cpp"
-
+#include "brute.cpp"
 
 namespace {
 int N, K, S, sUsed;
@@ -28,15 +27,16 @@ long long A;
 vector<long long> seq;
 
 /*
-  * 0 : failed
-  * 1 : impossible
-  * 2 : possible
-*/
+ * 0 : failed
+ * 1 : impossible
+ * 2 : possible
+ */
 int ret = 2;
-} // namespace
+}  // namespace
 
 void impossible() {
-  if (ret != 0) ret = 1;
+  if (ret != 0)
+    ret = 1;
 }
 
 long long skim(int pos) {
@@ -62,7 +62,8 @@ void answer(vector<int> v) {
   if (sum < A || 2 * A < sum)
     ret = 0;
 
-  if (ret != 0) ret = 2;
+  if (ret != 0)
+    ret = 2;
 }
 
 bool validate() {
@@ -116,7 +117,7 @@ void clear(int NN, int KK, ll AA, int SS, vl v) {
   A = AA;
   S = SS;
   sUsed = 0;
-  ret = 2; 
+  ret = 2;
 
   seq = v;
 }
@@ -147,8 +148,9 @@ bool init(int NN, int KK, ll AA, int SS, vl v) {
   solret = ret;
 
   // dbg(solret);
-  
-  if (solret != ansret) dbg(ansret, solret);
+
+  if (solret != ansret)
+    dbg(ansret, solret);
 
   return ansret == solret;
 }
@@ -156,7 +158,8 @@ bool init(int NN, int KK, ll AA, int SS, vl v) {
 random_device rd;
 mt19937 rng(rd());
 
-template <typename R, typename T, typename U> inline R randint(T lo, U hi) {
+template <typename R, typename T, typename U>
+inline R randint(T lo, U hi) {
   return uniform_int_distribution<R>((R)lo, (R)hi)(rng);
 }
 
@@ -173,8 +176,9 @@ int main() {
 
   int iter = 0;
 
-  while(1) {
-    if (++iter % 10000 == 0) dbg(iter);
+  while (1) {
+    if (++iter % 10000 == 0)
+      dbg(iter);
 
     NN = randint<int>(3, MAX_N);
     KK = randint<int>(3, min(NN, MAX_K));

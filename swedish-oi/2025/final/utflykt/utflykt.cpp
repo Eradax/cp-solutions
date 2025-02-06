@@ -1,9 +1,9 @@
 #include <bits/stdc++.h>
 
 #ifdef DBG
-#include "../../../../dbg.h"
+  #include "../../../../dbg.h"
 #else
-#define dbg(...)
+  #define dbg(...)
 #endif
 
 using namespace std;
@@ -29,7 +29,9 @@ signed main() {
   cin >> n;
 
   vi t(n);
-  rep(i, n) { cin >> t[i]; }
+  rep(i, n) {
+    cin >> t[i];
+  }
 
   sort(all(t));
 
@@ -38,7 +40,8 @@ signed main() {
   vi p(n);
   rep(i, n) {
     p[i] = t[i];
-    if (i) p[i] += p[i-1];
+    if (i)
+      p[i] += p[i - 1];
   }
 
   dbg(p);
@@ -48,11 +51,11 @@ signed main() {
   rep(i, n) {
     dbg("-----");
     int tmp = 0;
-    tmp += t[i] * (i+1) - p[i];
+    tmp += t[i] * (i + 1) - p[i];
 
     dbg(tmp);
 
-    tmp += t[n-1] * (n-1-i) - (p[n-1] - p[i]);
+    tmp += t[n - 1] * (n - 1 - i) - (p[n - 1] - p[i]);
 
     dbg(tmp);
 

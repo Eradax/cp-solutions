@@ -3,13 +3,14 @@
 #pragma GCC optimize("Ofast,inline,unroll-loops")
 
 #ifdef DBG
-#include "../../dbg.h"
+  #include "../../dbg.h"
 #else
-#define dbg(...)
+  #define dbg(...)
 #endif
 
 #define gc() getchar_unlocked()
-template <typename T> inline void read(T &v) {
+template <typename T>
+inline void read(T& v) {
   v = 0;
   char c;
   while ((c = gc()) && c != ' ' && c != '\n') {

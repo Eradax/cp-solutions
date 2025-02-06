@@ -38,7 +38,7 @@ int main() {
   }
 
   queue<pair<int, int>> q;
-  for (auto &[y, x] : bombs) {
+  for (auto& [y, x] : bombs) {
     q.emplace((y << 16) + x, 0);
   }
 
@@ -50,7 +50,7 @@ int main() {
     y = n >> 16;
     x = 0xFFFF & n;
 
-    for (auto &[dx, dy] : dirs) {
+    for (auto& [dx, dy] : dirs) {
     }
   }
 }

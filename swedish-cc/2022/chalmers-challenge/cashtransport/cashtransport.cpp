@@ -74,9 +74,9 @@ V{char*D;B*S;int J;V(){$w(E$(D=(char*)VirtualAlloc(0,536870912,8192,4))E$(Virtua
 #endif
 // End of blazingio
 // NOLINTEND
-// clang-format on
+    // clang-format on
 
-using namespace std;
+    using namespace std;
 
 using ll = unsigned long long;
 
@@ -100,7 +100,9 @@ int main() {
   int n, m, k;
   cin >> n >> m >> k;
 
-  rep(i, n) { cin >> a[i]; }
+  rep(i, n) {
+    cin >> a[i];
+  }
 
   rep(i, m) {
     cin >> d[2 * i] >> d[2 * i + 1];
@@ -125,6 +127,6 @@ int main() {
   perr(i, l - (l <= k ? l : k), l) {
     ans += v2[i];
   }
-  
+
   cout << ans;
 }

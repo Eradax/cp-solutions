@@ -1,9 +1,9 @@
 #include <bits/stdc++.h>
 
 #ifdef DBG
-#include "../../../../dbg.h"
+  #include "../../../../dbg.h"
 #else
-#define dbg(...)
+  #define dbg(...)
 #endif
 
 /*
@@ -40,7 +40,8 @@ struct SolverBase {
   virtual vi get_h() { return wall; }
 };
 
-template <const int BS> struct Solver : SolverBase {
+template <const int BS>
+struct Solver : SolverBase {
   vi wall;
 
   int preMax[(N + BS - 1) / BS][BS] = {0};
@@ -51,7 +52,7 @@ template <const int BS> struct Solver : SolverBase {
     dbg(sz(wall));
     dbg(wall);
 
-    int pad = sz(wall) % BS ? BS - (sz(wall) % BS): 0;
+    int pad = sz(wall) % BS ? BS - (sz(wall) % BS) : 0;
 
     dbg(pad);
 
@@ -115,7 +116,7 @@ template <const int BS> struct Solver : SolverBase {
     dbg(preMax, preSum, preWa);
   }
 
-  ll queryB(int b, int l, int &h) {
+  ll queryB(int b, int l, int& h) {
     dbg(b, l, h);
 
     if (l == 0) {
@@ -126,7 +127,7 @@ template <const int BS> struct Solver : SolverBase {
     if (h < preMax[b][l - 1]) {
       int lo = 0, hi = l;
       while (lo < hi) {
-        int mi = lo + (hi  - lo) / 2;
+        int mi = lo + (hi - lo) / 2;
 
         if (preMax[b][mi] > h) {
           hi = mi;
@@ -178,7 +179,9 @@ template <const int BS> struct Solver : SolverBase {
     dbg(ans, h);
 
     // mid
-    repp(i, lb + 1, rb) { ans += queryB(i, BS, h); }
+    repp(i, lb + 1, rb) {
+      ans += queryB(i, BS, h);
+    }
 
     dbg(ans, h);
 
@@ -201,7 +204,9 @@ struct Rmq {
   vector<pair<int, int>> t;
   Rmq() : t(n) {}
   Rmq(vi tt) : t(2 * n) {
-    rep(i, n) { t[n + i] = {tt[i], i}; }
+    rep(i, n) {
+      t[n + i] = {tt[i], i};
+    }
 
     for (int i = n - 1; i > 0; i--) {
       t[i] = max(t[i * 2], t[i * 2 + 1]);
@@ -236,12 +241,14 @@ int main() {
   dbg(n, q);
 
   vi h(n);
-  rep(i, n) { cin >> h[i]; }
+  rep(i, n) {
+    cin >> h[i];
+  }
 
   dbg(h);
 
-  SolverBase *s;
-  SolverBase *rs;
+  SolverBase* s;
+  SolverBase* rs;
   s = new Solver<500>(h);
   reverse(h.begin(), h.end());
   rs = new Solver<500>(h);
@@ -258,7 +265,7 @@ int main() {
       r--;
 
       int m = rmq.query(l, r + 1);
-      
+
       dbg(l, r, m);
 
       ll ans = 0;

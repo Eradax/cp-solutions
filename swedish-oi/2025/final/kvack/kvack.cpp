@@ -1,9 +1,9 @@
 #include <bits/stdc++.h>
 
 #ifdef DBG
-#include "../../../../dbg.h"
+  #include "../../../../dbg.h"
 #else
-#define dbg(...)
+  #define dbg(...)
 #endif
 
 using namespace std;
@@ -33,7 +33,9 @@ int query(int a) {
 
 void answer(vi v) {
   cout << "! " << sz(v) << endl;
-  rep(i, sz(v)) { cout << v[i] << " "; }
+  rep(i, sz(v)) {
+    cout << v[i] << " ";
+  }
   cout << endl;
 
   exit(0);
@@ -48,7 +50,8 @@ void solve(vi* ans, int f, int l) {
 
   if (f == l) {
     int a = query(f);
-    if (a == f) ans->push_back(a);
+    if (a == f)
+      ans->push_back(a);
     return;
   }
 
@@ -62,32 +65,31 @@ void solve(vi* ans, int f, int l) {
 
   if (res == f) {
     // next query should be over [m + m - f, l]
-    solve(ans, max(mi + mi - f, f+1), l);
+    solve(ans, max(mi + mi - f, f + 1), l);
   }
 
   else if (res == l) {
     // next query should be over [f, m - (l - m) - 1]
 
-    solve(ans, f, min(mi - (l - mi) - 1, l-1));
+    solve(ans, f, min(mi - (l - mi) - 1, l - 1));
   }
 
   else if (res < mi) {
     // next queries are over [f, res-1] and [m + m - res, l]
 
     solve(ans, f, res - 1);
-    solve(ans, max(mi + mi - res, res+1), l);
+    solve(ans, max(mi + mi - res, res + 1), l);
   }
 
   else if (res > mi) {
     // next queries are over [f, m - (m - res) - 1] and [res + 1, l]
 
-    solve(ans, f, min(mi - (res - mi) - 1, res-1));
+    solve(ans, f, min(mi - (res - mi) - 1, res - 1));
     solve(ans, res + 1, l);
-  }
-  else if (res == mi) {
+  } else if (res == mi) {
     // nex queries are over [f, m - 1] and [m + 1, l]
-    solve(ans, f, mi-1);
-    solve(ans, mi+1, l);
+    solve(ans, f, mi - 1);
+    solve(ans, mi + 1, l);
   }
 }
 
@@ -98,12 +100,12 @@ signed main() {
   vi ank;
 
   int f = query(-1);
-  int l = query(1e9+1);
+  int l = query(1e9 + 1);
 
   ank.push_back(f);
   ank.push_back(l);
 
-  solve(&ank, f+1, l-1);
+  solve(&ank, f + 1, l - 1);
 
   dbg(ank);
 

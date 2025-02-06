@@ -1,5 +1,5 @@
-#include "books.h"
 #include <bits/stdc++.h>
+#include "books.h"
 
 namespace ans {
 vl vals;
@@ -52,7 +52,9 @@ void solve(int NN, int KK, ll AA, int SS) {
   }
 
   auto [ans, sum] = rec(0, -1, 0);
-  rep(i, K) { ans[i]++; }
+  rep(i, K) {
+    ans[i]++;
+  }
 
   reverse(all(ans));
 
@@ -64,4 +66,4 @@ void solve(int NN, int KK, ll AA, int SS) {
     impossible();
   }
 }
-} // namespace ans
+}  // namespace ans

@@ -59,7 +59,6 @@ signed main() {
     }
   }
 
-
   {
     ld ma = -numeric_limits<ld>::infinity();
     for (auto [x, y] : neg) {
