@@ -8,99 +8,100 @@
 
 using namespace std;
 
-using ll = long long;
-
-#define int ll
+#define repp(i, s, n) for (int i = s; i < (n); i++)
+#define rep(i, n) repp(i, 0, n)
 
 using vi = vector<int>;
 using vvi = vector<vi>;
 
-static constexpr int INF = 1e18;
+using pi = pair<int, int>;
+using vpi = vector<pi>;
+using vvpi = vector<vpi>;
 
-#define rep(i, n) for (int i = 0; i < (n); i++)
-#define repp(i, s, n) for (int i = s; i < (n); i++)
-#define per(i, n) for (int i = n - 1; i >= 0; i--)
-#define sz(c) ((int)c.size())
-#define setcontains(c, x) (c.find(x) != c.end())
+using bs = bitset<50000>;
 
-vvi c;
-vvi adj;
-vi par;
+using vbs = vector<bs>;
 
-vector<int> tin, tout;
-vector<vector<int>> up;
-int timer, l;
-int n, k, q;
+using ui = unordered_set<pi>;
+using vui = vector<ui>;
 
-void dfs(int u, int p) {
-  par[u] = p;
-  if (p >= 0) c[p].push_back(u);
-
-  tin[u] = ++timer;
-  up[u][0] = max(p, 0LL);
-  repp(i, 1, l + 1) { up[u][i] = up[up[u][i - 1]][i - 1]; }
-
-  for (auto v : adj[u]) {
-    if (v == p)
-      continue;
-
-    dfs(v, u);
-  }
-
-  tout[u] = ++timer;
-}
-
-bool is_ancestor(int u, int v) {
-  return tin[u] <= tin[v] && tout[u] >= tout[v];
-}
-
-int lca(int u, int v) {
-  if (is_ancestor(u, v))
-    return u;
-  if (is_ancestor(v, u))
-    return v;
-  for (int i = l; i >= 0; --i) {
-    if (!is_ancestor(up[u][i], v))
-      u = up[u][i];
-  }
-  return up[u][0];
-}
-
-void preprocess(int root) {
-  tin.resize(n);
-  tout.resize(n);
-  timer = 0;
-  l = ceil(log2(n));
-  up.assign(n, vector<int>(l + 1));
-  dfs(root, -1);
-}
-
-signed main() {
+int main() {
   cin.tie(0)->sync_with_stdio(0);
 
+  int n, k, q;
   cin >> n >> k >> q;
 
-  adj.resize(n);
+  dbg(n, k, q);
 
-  rep(i, n - 1) {
+  vvi adj(n);
+
+  rep(i, n-1) {
     int u, v;
     cin >> u >> v;
-    u--;
-    v--;
+    u--, v--;
 
     adj[u].push_back(v);
     adj[v].push_back(u);
   }
 
-  dbg(adj);
+  vbs sen(n);
 
-  c.resize(n);
-  par.resize(n, -1);
+  vpi trains(k);
+  rep(i, k) {
+    int s, t;
+    cin >> s >> t;
+    s--, t--;
 
-  preprocess(0);
+    trains[i] = {s, t};
 
-  dbg(par);
-  dbg(c);
+    sen[s].set(i);
+    sen[t].set(i);
+  }
 
-  
+  dbg(sen);
+
+  vbs stops(n);
+
+  function<bs(int, int)> dfs;
+  dfs = [&](int u, int p) {
+    dbg(u, p);
+    bs curr = sen[u], curr2 = sen[u];
+
+    for (auto v : adj[u]) {
+      if (v == p)
+        continue;
+
+      bs tmp = dfs(v, u);
+      curr ^= tmp;
+      curr2 |= tmp;
+    }
+
+    stops[u] = curr2;
+
+    return curr;
+  };
+
+  dfs(0, -1);
+
+  dbg(stops);
+
+  vi ans(q);
+  rep(i, q) {
+    int a, b;
+    cin >> a >> b;
+    a--;
+    b--;
+
+    bs aa, bb, cc;
+    aa = stops[a];
+    bb = stops[b];
+
+    cc = aa & bb;
+    ans[i] = cc.any();
+
+    dbg(a, b);
+    dbg(aa, bb, cc);
+  }
+
+  rep(i, q) { cout << (ans[i] > 0 ? "Yes" : "No") << endl; }
 }
