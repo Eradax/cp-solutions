@@ -1,2 +1,2 @@
-30 3
-ccaaccccbbccccaccccbbccccaaccc
+10 26
+cccccccccc
