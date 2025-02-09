@@ -1,0 +1,256 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage[most]{tcolorbox}
+\usepackage{graphicx}
+\usepackage{minted}
+\usepackage{hyperref}
+\usepackage{parskip} 
+
+
+\newenvironment{problem}[2][Problem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+
+\title{Teoriblad-25}
+\author{Erik Adebahr}
+\date{February 2025}
+
+\begin{document}
+
+\maketitle
+\begin{problem}{1}
+    Problemstatement:
+    
+    \begin{tcolorbox}[colback=white,colframe=red!75!black]
+        Du har hängt upp $N$ stycken handdukar på en tvättlina som representeras av en $x$-axel. Den $i$:te handduken består av intervallet $[l_i,r_i]$ och täcker in alla heltal $x$ som uppfyller $l_i \leq x \leq r_i$. Det är fullt möjligt att flera handdukar överlappar. För att handdukarna inte ska falla ner hade du tänkt fästa klädnypor på vissa heltalspunkter $x_1,x_2,\cdots,x_k$. Detta måste göras så att varje handduk täcker över minst en av dessa klädnypor, och antalet klädnypor är så få som möjligt. Hitta antalet sätt att fästa klädnypor så att detta uppfylls. Skriv ut svaret modulo $(10^9+7)$.
+
+    \end{tcolorbox} 
+
+    För första problemet så kommer vi att dela upp alla våra interval i max $2n-1$ interval som är homogena. Detta kan göras i $\mathcal{O}(n\log(n))$ med att lägga till alla start och end points, sortera, sen skapa alla joined interval och binärsöka för att kolla om något ligger utanför alla interval. Använd modint från Joshuas github istället för ints för att inte missa någon mod.
+
+    \begin{minted}{python}
+    def get_split_intervals(intervals):
+    intervals = sorted(intervals)
+
+    ret = [intervals[-1]]
+
+    largest_right = -1
+    for left, right in intervals[::-1]:
+        if right >= largest_right:
+            largest_right = right
+        else:
+            ret.append([left, right])
+
+    intervals = ret
+
+    boundary_points = set()
+    for l, r in intervals:
+        boundary_points.add(l)
+        boundary_points.add(r + 1)
+    sorted_boundary_points = sorted(list(boundary_points))
+
+    new_intervals = []
+    for i in range(len(sorted_boundary_points) - 1):
+        start = sorted_boundary_points[i]
+        end = sorted_boundary_points[i + 1] - 1
+        if start <= end:
+            new_intervals.append((start, end))
+
+    sorted_segments = sorted(intervals, key=lambda x: x[0])
+
+    # Merge overlapping or adjacent segments
+    merged = [sorted_segments[0]]
+    for seg in sorted_segments[1:]:
+        last = merged[-1]
+        if seg[0] <= last[1]:
+            # Merge the segments
+            new_seg = (last[0], max(last[1], seg[1]))
+            merged[-1] = new_seg
+        else:
+            merged.append(seg)
+
+    # Prepare start and end arrays for binary search
+    starts = [seg[0] for seg in merged]
+    ends = [seg[1] for seg in merged]
+
+    # Check each point using binary search
+    import bisect
+
+    result = []
+    for p in new_intervals:
+        idx = bisect.bisect_right(starts, p[0]) - 1
+        if idx >= 0 and ends[idx] >= p[0]:
+            result.append(p)
+
+    result.sort()
+
+    return result
+
+    \end{minted}
+
+    Nu gör vi en dp över dessa nya interval, för att göra detta förberäknar vi med two-pointer för varje interval när förra slutet för något av de riktiga intervalen var.
+
+    \begin{minted}{python}
+    prend = [-1] * new_n
+    intp = [0, 0]
+    for nintp in range(new_n):
+        while (
+            intp[0] + 1 < n
+            and intervals[intp[0] + 1][1] < new_intervals[nintp][0]
+        ):
+            intp[0] += 1
+
+        while intervals[intp[0]][1] != new_intervals[intp[1]][1]:
+            dbg(intp)
+            intp[1] += 1
+
+        if intervals[intp[0]][1] < new_intervals[nintp][0]:
+            prend[nintp] = intp[1]
+    \end{minted}
+
+    Dp:en kommer att se ut som följande, antalet sätt att täcka alla små interval up till i och hur många saker som behöver placeras. Denna kommer att ha \[
+    \text{DP}[i] = {\text{antalet som placeras i DP av prend[i] + 1, längden av nuvarande interval gånger svaret för de föregående som kan placeras}}.
+    \]
+
+    Du behöver även ta bort alla interval som helt täcks av något annat för att det aldrig kommer att användas, detta görs i början.
+    \begin{minted}{python}
+    intervals = sorted(intervals)
+
+    ret = [intervals[-1]]
+
+    largest_right = -1
+    for left, right in intervals[::-1]:
+        dbg(left, right)
+        if right >= largest_right:
+            largest_right = right
+        else:
+            ret.append([left, right])
+
+    intervals = ret
+    \end{minted}
+
+    För att svara på andra delen har vi en prefix summa och en array, när vi kommer till början tar vi bort nuvarande och när vi kommer till slutet lägger vi till nuvarande. På så sätt blir det samma tidskomplexitet.
+
+    svaret blir nu den här prefix saken för sista intervalet, alla interval är sorterade från left och sen right.
+\end{problem}
+
+\newpage
+
+\begin{problem}{2}
+    Här ger jag en hel python lösning, tanken är att räkna frekvensen av allting i varje rad, notera att så länge det finns en punkt med värde större eller lika med två så finns det någon kolumn som har ett värde noll men inte alla värden noll eftersom första raden har en av allt. Sen bara går vi igenom och tar bort allt för det som är noll, notera att jag lägger in och tar bort ur ett set men det skulle lika gärna kunna vara en stack.
+    \begin{minted}{python}
+def solve(n, arr):
+    cnt = [[0] * n for _ in range(3)]
+
+    indexes = [[[] for _ in range(n)] for _ in range(3)]
+
+    for i, row in enumerate(arr):
+        for j, e in enumerate(row):
+            e -= 1
+            cnt[i][e] += 1
+            indexes[i][e].append(j)
+
+
+    exam = set()
+
+    for i in range(n):
+        col = [cnt[j][i] for j in range(3)]
+
+        if any(map(lambda x: x == 0, col)) and any(col):
+            for k in range(3):
+                for kk in indexes[k][i]:
+                    exam.add(kk)
+
+    done = set()
+
+    while len(exam) > 0:
+        coli = exam.pop()
+        done.add(coli)
+
+        for i in range(3):
+            numi = arr[i][coli] - 1
+            cnt[i][numi] -= 1
+
+            if cnt[i][numi] == 0:
+                for ii in range(3):
+                    for col in indexes[ii][numi]:
+                        if col not in done:
+                            exam.add(col)
+
+    res = [[] for _ in range(3)]
+    for i in range(3):
+        for j, r in enumerate(cnt[i]):
+            if r > 0:
+                res[i].append(j + 1)
+
+    return n - len(res[0])
+
+    \end{minted}
+\end{problem}
+
+\newpage
+
+\begin{problem}{3}
+    För ett träd så löser vi för subträd och kopplar ihop dem om den inte matchar helt.
+    \begin{minted}{python}
+def solve(
+    n: int, m: int, adj: list[list[int]], edges: list[tuple[int]]
+) -> list:
+    def solve_tree(
+        u: int, p: int
+    ) -> tuple[list[tuple[tuple[int]]], bool]:
+        ans = []
+        edges_left = []
+        for v in adj[u]:
+            if v == p:
+                continue
+
+            matchings, used_last = solve_tree(v, u)
+            ans += matchings
+            if not used_last:
+                edges_left.append((u, v))
+
+        edge_pairs_add = list(itertools.batched(edges_left, 2))
+        if len(edges_left) % 2 == 1:
+            edge_pairs_add = edge_pairs_add[:-1]
+            if p != -1:
+                edge_pairs_add.append((edges_left[-1], (u, p)))
+
+        ans += edge_pairs_add
+
+        return ans, len(edges_left) % 2 == 1
+
+    ans, _ = solve_tree(0, -1)
+
+    return len(ans), ans
+
+    \end{minted}
+
+    \textbf{Claim: } Svaret är alltid $\text{floor}(\frac{m}{2})$.
+    \textbf{Proof: } Mer eller mindre uppenbart, gör någon matching, om den inte är perfekt så är det bara att hitta en väg emellan och matcha dig igenom vägen.
+    
+
+    För full lösning gör vi något liknande. För varje 2-edge-connected graf kan vi lätt lösa det genom att välja en start nod, matcha så mycket som möjligt sen gå till en granne du inte varit vid, om du har en kant kvar så väljer du den så att du kan gå till den (i.e. den är inte redan visited). Detta kommer alltid funka för 2-edge connected grafer. För att göra för en allmän graf delar vi upp den i 2-edge connected components och vägar där emellan, detta blir inte riktigt ett block-cut tree man lite liknande. Vi har ett träd med kondenserade noder.
+
+    Vi börjar med att skapa träd decompositionen, som kan göras som \href{https://codeforces.com/blog/entry/83980}{här}. Problemet nu är att vårt skapade träd inte riktigt är ett träd. Men detta kan vi lösa genom att skapa vägar genom trädets rot till varje löv nod, vilket blir linjär tid med en dfs. Vi vill nu använda dessa vägar för att "poppa" upp alla våra oanvända kanter, anntingen gör vi detta för varje kant för   sig, då blir det kvadratiskt eller så försöker vi göra allt samtidigt för att det ska bli linjärt, jag förklarar senare exakt hur du gör dessa.
+
+
+    Efter att du har poppat upp allt kommer du ha alt löst förrutom någon connected träd structur genom roten, sen löser du denna med samma lösning som för allmänna träd.
+
+
+    För att poppa upp i kvadratisk tid så går vi från första tagna kanten på vägen från roten till noden som ska upp, klipper denns koppling, detta kan förstöra ett annat subträd men det är fine för att det blir i vårt träd sen. Och sen fortsätter vi så med att gå ner i grafen, vi inför aldrig några cykler vilket gör att trädlösningen sen funkar.
+
+    För att göra det i (nästan) linjär tid gör vi något likande, vi börjar i roten och gör samma typ a decupling ner till alla kanter som är oanvända, vi undviker att skapa cyklar genom att om vi håller på att skapa en cykel av oanvända kanter så betyder det att vi redan kan ta os dit i vilket fall vi bara gör decouplingen. Du kan bestämma om att lägga till en kant skapar en cykel genom att använda en union-find, likt vad du gör för att skapa mst.
+\end{problem}
+
+\newpage
+
+\begin{problem}{4}
+    Vi kommer svara på varje query för sig. Istället för att starta vid nod ett och sen gå till målet så går vi från målet till ett. Vi börjar då med vilket interval vi behöver vara i när vi kommer hit, sen när vi går igenom en kant (reversed håll) så skiftas intervalet ner vilket kan göras i konstant tid om varje interval sparas som två värden vänster och höger. När olika vägar går ihop så mergas de också i konstant tid eftersom varje interval är tillräckligt lång att det antingen kommer gå igenom punkten vid $x_i$ eller den vid noll, om höger går förbi noll så ignorerar vi den eftersom den aldrig är bra för svaret. Detta kan trivialt skrivas som en DP med topologisk sortering. Vi gör denna merge genom att hålla koll på från noll längst till vänster och längst till vänster, längst till höger för det högra intervalet.
+
+    
+
+    Svaret blir då om det finns ett interval från noll.
+\end{problem}
+
+\end{document}
