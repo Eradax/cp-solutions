@@ -1,3 +1,5 @@
 *.o
 *.out
 .ccls-cache
+.ruff_cache
+**/__pycache__
