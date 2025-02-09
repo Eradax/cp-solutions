@@ -1,3 +1,6 @@
+#pragma GCC optimize("Ofast")
+#include <bitset>
+#pragma GCC target("avx2,tune=native")
 #include <bits/stdc++.h>
 
 #ifdef DBG
@@ -32,10 +35,12 @@ struct Matrix {
   array<array<T, N>, N> d{};
   Matrix operator*(const Matrix& m) const {
     Matrix a{};
-    for (int i = 0; i < N; i++)
-      for (int j = 0; j < N; j++)
+    for (int i = 0; i < N; i++) {
+      for (int j = 0; j < N; j++) {
         for (int k = 0; k < N; k++)
           a.d[i][j] += d[i][k] * m.d[k][j];
+      }
+    }
     return a;
   }
   Vec<T, N> operator*(const Vec<T, N>& vec) const {
@@ -63,17 +68,10 @@ struct T {
 
   static IT opFromBit(int b) {
     IT ret;
-    ret.first.d[0] = {1, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-    ret.first.d[1] = {0, 1, 0, 0, 0, 0, 0, 0, 0, 0};
-    ret.first.d[2] = {0, 0, 1, 0, 0, 0, 0, 0, 0, 0};
-    ret.first.d[3] = {0, 0, 0, 1, 0, 0, 0, 0, 0, 0};
-    ret.first.d[4] = {0, 0, 0, 0, 1, 0, 0, 0, 0, 0};
-    ret.first.d[5] = {0, 0, 0, 0, 0, 1, 0, 0, 0, 0};
-    ret.first.d[6] = {0, 0, 0, 0, 0, 0, 1, 0, 0, 0};
-    ret.first.d[7] = {0, 0, 0, 0, 0, 0, 0, 1, 0, 0};
-    ret.first.d[8] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 0};
-    ret.first.d[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 1};
-    ret.second.d = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
+    rep(i, 10) {
+      ret.first.d[i][i] = 1;
+    }
 
     rep(i, 10) ret.first.d[b][i] = 1;
     ret.second.d[b] = 1;
@@ -82,17 +80,9 @@ struct T {
 
   T(const vi& bits) {
     n = bits.size();
-    ID.first.d[0] = {1, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-    ID.first.d[1] = {0, 1, 0, 0, 0, 0, 0, 0, 0, 0};
-    ID.first.d[2] = {0, 0, 1, 0, 0, 0, 0, 0, 0, 0};
-    ID.first.d[3] = {0, 0, 0, 1, 0, 0, 0, 0, 0, 0};
-    ID.first.d[4] = {0, 0, 0, 0, 1, 0, 0, 0, 0, 0};
-    ID.first.d[5] = {0, 0, 0, 0, 0, 1, 0, 0, 0, 0};
-    ID.first.d[6] = {0, 0, 0, 0, 0, 0, 1, 0, 0, 0};
-    ID.first.d[7] = {0, 0, 0, 0, 0, 0, 0, 1, 0, 0};
-    ID.first.d[8] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 0};
-    ID.first.d[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 1};
-    ID.second.d = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    rep(i, 10) {
+      ID.first.d[i][i] = 1;
+    }
 
     t.resize(2 * n, ID);
     for (int i = 0; i < n; i++) {
@@ -113,7 +103,7 @@ struct T {
     }
   }
 
-  IT query(int l, int r) {
+  ui q(int l, int r) {
     IT ld = ID;
     IT rd = ID;
 
@@ -124,7 +114,13 @@ struct T {
         rd = t[--r] + rd;
     }
 
-    return ld + rd;
+    ld = ld + rd;
+    ui ans = 1;
+    rep(i, 10) {
+      ans += ld.second.d[i];
+    }
+
+    return ans;
   }
 };
 
@@ -134,15 +130,11 @@ int main() {
   int n, q;
   cin >> n >> q;
   vi bits(n);
-  for (int i = 0; i < n; i++)
-    cin >> bits[i];
+  rep(i, n) cin >> bits[i];
 
-  T seg(bits);
+  T t(bits);
 
-  IT overall = seg.query(0, n);
-  ui ans = 1;
-  rep(i, 10) ans += overall.second.d[i];
-  cout << ans << "\n";
+  cout << t.q(0, n) << "\n";
 
   rep(_, q) {
     int i, v;
@@ -150,13 +142,9 @@ int main() {
     i--;
     if (bits[i] != v) {
       bits[i] = v;
-      seg.set(i, v);
+      t.set(i, v);
     }
 
-    overall = seg.query(0, n);
-    ui ans = 1;
-    rep(i, 10) ans += overall.second.d[i];
-
-    cout << ans << "\n";
+    cout << t.q(0, n) << "\n";
   }
 }
