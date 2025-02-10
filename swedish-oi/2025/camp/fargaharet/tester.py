@@ -4,7 +4,7 @@ import itertools
 
 gen = "./gen.py"
 ans = "./ans"
-sol = "./sol"
+sol = "./fast"
 
 for round in itertools.count(1):
     if round % 100 == 0:

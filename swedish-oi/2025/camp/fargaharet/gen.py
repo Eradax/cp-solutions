@@ -2,7 +2,9 @@
 from random import randint
 
 N = int(1e5)
-Q = int(1e5)
+Q = int(6e3)
+# N = 10
+# Q = 10
 
 V = 9
 
