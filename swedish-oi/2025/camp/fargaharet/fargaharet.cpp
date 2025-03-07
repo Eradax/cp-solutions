@@ -18,14 +18,14 @@ using vi = vector<int>;
 
 #define rep(i, n) for (int i = 0; i < n; i++)
 
+static const int V = 10;
+
 template <class T, int N>
 struct Vec {
   array<T, N> d{};
   Vec operator+(const Vec& v) const {
     Vec res{};
-    for (int i = 0; i < N; i++) {
-      res.d[i] = d[i] + v.d[i];
-    }
+    rep(i, N) res.d[i] = d[i] + v.d[i];
     return res;
   }
 };
@@ -35,24 +35,18 @@ struct Matrix {
   array<array<T, N>, N> d{};
   Matrix operator*(const Matrix& m) const {
     Matrix a{};
-    for (int i = 0; i < N; i++) {
-      for (int j = 0; j < N; j++) {
-        for (int k = 0; k < N; k++)
-          a.d[i][j] += d[i][k] * m.d[k][j];
-      }
-    }
+    rep(i, N) rep(j, N) rep(k, N) a.d[i][j] += d[i][k] * m.d[k][j];
     return a;
   }
+
   Vec<T, N> operator*(const Vec<T, N>& vec) const {
     Vec<T, N> ret{};
-    for (int i = 0; i < N; i++)
-      for (int j = 0; j < N; j++)
-        ret.d[i] += d[i][j] * vec.d[j];
+    rep(i, N) rep(j, N) ret.d[i] += d[i][j] * vec.d[j];
     return ret;
   }
 };
 
-using IT = pair<Matrix<ui, 10>, Vec<ui, 10>>;
+using IT = pair<Matrix<ui, V>, Vec<ui, V>>;
 
 IT operator+(const IT& L, const IT& R) {
   IT res;
@@ -66,41 +60,33 @@ struct T {
   vector<IT> t;
   int n;
 
-  static IT opFromBit(int b) {
+  IT getIT(int b) {
     IT ret;
-
-    rep(i, 10) {
-      ret.first.d[i][i] = 1;
-    }
-
-    rep(i, 10) ret.first.d[b][i] = 1;
+    rep(i, V) ret.first.d[i][i] = 1;
+    rep(i, V) ret.first.d[b][i] = 1;
     ret.second.d[b] = 1;
     return ret;
   }
 
   T(const vi& bits) {
     n = bits.size();
-    rep(i, 10) {
-      ID.first.d[i][i] = 1;
-    }
+    rep(i, V) ID.first.d[i][i] = 1;
 
     t.resize(2 * n, ID);
-    for (int i = 0; i < n; i++) {
-      t[n + i] = opFromBit(bits[i]);
-    }
-    for (int i = n - 1; i > 0; i--) {
+    for (int i = 0; i < n; i++)
+      t[n + i] = getIT(bits[i]);
+
+    for (int i = n - 1; i > 0; i--)
       t[i] = t[2 * i] + t[2 * i + 1];
-    }
   }
 
   void set(int i, int b) {
     i += n;
 
-    t[i] = opFromBit(b);
+    t[i] = getIT(b);
 
-    for (i /= 2; i > 0; i /= 2) {
+    for (i /= 2; i > 0; i /= 2)
       t[i] = t[2 * i] + t[2 * i + 1];
-    }
   }
 
   ui q(int l, int r) {
@@ -116,10 +102,7 @@ struct T {
 
     ld = ld + rd;
     ui ans = 1;
-    rep(i, 10) {
-      ans += ld.second.d[i];
-    }
-
+    rep(i, V) ans += ld.second.d[i];
     return ans;
   }
 };
@@ -129,6 +112,7 @@ int main() {
 
   int n, q;
   cin >> n >> q;
+
   vi bits(n);
   rep(i, n) cin >> bits[i];
 
