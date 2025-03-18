@@ -2,7 +2,6 @@
 // #include <bitset>
 // #pragma GCC target("avx2")
 #include <bits/stdc++.h>
-#include <functional>
 
 #ifdef DBG
   #include "../../../../dbg.h"
