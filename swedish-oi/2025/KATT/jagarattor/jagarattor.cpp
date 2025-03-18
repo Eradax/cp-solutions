@@ -1,6 +1,4 @@
 #pragma GCC optimize("Ofast")
-// #include <bitset>
-// #pragma GCC target("avx2")
 #include <bits/stdc++.h>
 
 #ifdef DBG
@@ -74,9 +72,6 @@ int main() {
     pipes.emplace_back(u, v, a, b);
   }
 
-  dbg(gttm());
-  rst();
-
   int num_bcc = 0;
   vi bcc_id(m, -1);
 
@@ -134,12 +129,6 @@ int main() {
     }
   }
 
-  dbg(gttm());
-  rst();
-
-  // dbg(pipes);
-  // dbg(bcc_id);
-
   unordered_map<ll, int> trans;
   trans.max_load_factor(0.25);
   trans.reserve(1 << 19);
@@ -152,16 +141,11 @@ int main() {
   };
 
   vvi ratg(4 * (m + 1));
-  // vvi gtar(6 * m);
 
-  // int maxu = -1;
   auto add_edge = [&](int a, int b, int c, int d) {
     int u = get_ind(a, b);
     int v = get_ind(c, d);
-    // dbg(u, v);
     ratg[u].push_back(v);
-    // maxu = max(maxu, u);
-    // gtar[v].push_back(u);
   };
 
   vi transp(n, -1);
@@ -201,13 +185,6 @@ int main() {
 
   ratg.resize(sz(trans));
 
-  dbg(gttm());
-  rst();
-
-  // for (auto i : ratg)
-  // dbg(i);
-  // dbg(ratg);
-
   vvi span(n);
   vi par(n);
   vi tin(n), tout(n);
@@ -231,13 +208,6 @@ int main() {
       dfs(0);
     }
 
-    dbg(gttm());
-    rst();
-
-    // for (auto i : span)
-    // dbg(i);
-    // dbg(span);
-
     int time = 0;
     function<void(int, int)> dfs;
     dfs = [&](int u, int p) {
@@ -258,11 +228,6 @@ int main() {
     dfs(0, 0);
   }
 
-  dbg(gttm());
-  rst();
-
-  // dbg(up, par);
-
   auto is_ancestor = [&](int u, int v) {
     return tin[u] <= tin[v] && tout[u] >= tout[v];
   };
@@ -277,11 +242,9 @@ int main() {
         }
       }
 
-      // dbg(u, vc, v);
       return v;
     }
 
-    // dbg(u, v, par[u]);
     return par[u];
   };
 
@@ -342,15 +305,6 @@ int main() {
     }
   }
 
-  dbg(gttm());
-  rst();
-
-  // for (auto i : roots)
-  // dbg(i);
-  // dbg(cond, roots);
-
-  dbg(sz(cond));
-
   vi order;
   {
     vi vis(sz(cond));
@@ -385,9 +339,6 @@ int main() {
     }
   };
 
-  dbg(gttm());
-  rst();
-
   vector<vector<tuple<int, int, int, int>>> queries(
       (sz(cond) + SIZE - 1) / SIZE
   );
@@ -404,24 +355,16 @@ int main() {
 
   vi ans(q);
 
-  dbg(gttm());
-  rst();
   for (int round = 0; round < sz(queries); round++) {
-    // rst();
     if (sz(queries[round]) == 0)
       continue;
 
-    // dbg(gttm());
     get_part(round);
-    // dbg(gttm());
 
     for (auto [s, r, t, i] : queries[round]) {
       s = get_besides(r, s);
 
-      // dbg(s, r, t);
       int ed = roots[get_ind(s, r)];
-
-      // dbg(rated);
 
       int quer = roots[transp[t]];
       int pos = reach[ed][quer % SIZE];
@@ -429,15 +372,6 @@ int main() {
     }
   }
 
-  dbg(gttm());
-  rst();
-
   for (auto i : ans)
     cout << i << '\n';
-
-  for (int u = 0; u < n; u++) {
-    for (auto [v, _] : adj[u]) {
-      // dbg(u, v, get_ind(u, v));
-    }
-  }
 }
