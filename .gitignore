@@ -3,3 +3,4 @@
 .ccls-cache
 .ruff_cache
 **/__pycache__
+*.mkv
