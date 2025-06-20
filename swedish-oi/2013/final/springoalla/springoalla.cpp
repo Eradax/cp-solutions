@@ -1,5 +1,6 @@
-#pragma GCC target("avx2")
 #pragma GCC optimize("Ofast")
+#include <bits/allocator.h>
+#pragma GCC target("avx2")
 #include <bits/stdc++.h>
 
 #ifdef DBG
@@ -21,8 +22,6 @@ static constexpr int INF = 1e9;
 
 using vi = vector<int>;
 
-#define all(c) c.begin(),c.end()
-
 #define rep(i, n) for (int i = 0; i < (n); i++)
 
 int main() {
@@ -40,8 +39,6 @@ int main() {
     cin >> v[i];
     maxl = max(maxl, v[i]);
   }
-
-  sort(all(v));
 
   vi w(t + maxl * 3 / 2 + 10, INF), p(t + maxl * 3 / 2 + 10);
 

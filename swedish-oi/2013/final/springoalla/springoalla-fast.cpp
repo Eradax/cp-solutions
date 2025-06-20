@@ -1,9 +1,7 @@
 #pragma GCC optimize("Ofast")
-#include <iostream>
+#include <bits/allocator.h>
 #pragma GCC target("avx2")
-#include <algorithm>
-#include <utility>
-#include <vector>
+#include <bits/stdc++.h>
 
 #ifdef DBG
   #include "../../../../dbg.h"
@@ -13,7 +11,7 @@
 
 using namespace std;
 
-#define repp(i, s, n) for (size_t i = s; i < n; i++)
+#define repp(i, s, n) for (int i = s; i < n; i++)
 #define rep(i, n) repp(i, 0, n)
 
 #define perr(i, s, n) for (int i = n - 1; i >= s; i--)
@@ -21,23 +19,28 @@ using namespace std;
 
 #define all(c) c.begin(), c.end()
 
-using ui = unsigned int;
-using pi = pair<ui, ui>;
+using ui = unsigned long long;
+using pi = pair<int, int>;
+using pui = pair<ui, ui>;
+using piui = pair<int, ui>;
 
 static constexpr ui INF = 1e9;
 
-using vi = vector<ui>;
+using vui = vector<ui>;
+using vi = vector<int>;
+using vpui = vector<pui>;
+using vpiui = vector<piui>;
 using vpi = vector<pi>;
 
 int main() {
   cin.tie(0)->sync_with_stdio(0);
 
-  ui n, t;
+  int n, t;
   cin >> n >> t;
 
   dbg(n, t);
 
-  vpi v(2 * n);
+  vpiui v(2 * n);
   rep(i, n) {
     cin >> v[2 * i].first;
     v[2 * i + 1].first = (3 * v[2 * i].first) / 2;
@@ -51,11 +54,12 @@ int main() {
 
   dbg(v);
 
-  vi w(t, INF);
+  vui w(t, INF);
   w[0] = 0;
 
   rep(i, 2 * n) {
     rep(k, t - v[i].first) {
+      dbg(t, k, v[i].first, k+v[i].first, t-v[i].first);
       w[k + v[i].first] = min(
           w[k + v[i].first], w[k] + 1 + (v[i].second >> 31)
       );
@@ -64,7 +68,7 @@ int main() {
 
   for (auto i : w) dbg(i);
 
-  ui ip = 0;
+  int ip = 0;
   tuple<ui, ui, ui> curr{INF, INF, INF};
   per(tp, t) {
     if (w[tp] == INF) continue;
@@ -83,7 +87,7 @@ int main() {
   cout << get<0>(curr) << " " << get<1>(curr) << '\n';
 
   vi ans(n);
-  ans[v[get<2>(curr)].second << 1 >> 1] += v[get<2>(curr)].first;
+  ans[v[get<2>(curr)].second & ((1ll<<31)-1)] += v[get<2>(curr)].first;
 
   auto best = curr;
   swap(get<0>(best), get<1>(best));
@@ -114,7 +118,7 @@ int main() {
       };
       dbg(tmp);
     }
-    ans[v[get<2>(new_best)].second << 1 >> 1] += v[get<2>(new_best)].first;
+    ans[v[get<2>(new_best)].second & ((1ll<<31)-1)] += v[get<2>(new_best)].first;
 
     swap(best, new_best);
 
