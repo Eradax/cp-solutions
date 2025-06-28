@@ -4,3 +4,6 @@
 .ruff_cache
 **/__pycache__
 *.mkv
+*.data
+*.svg
+*.old
