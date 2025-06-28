@@ -14,7 +14,7 @@ v = [ma[i] for i in s]
 sr = sum(v)
 mr = max(v)
 
-if (m == 2):
+if m == 2:
     print(sr // 2 if v[0] == v[1] else -1)
 elif sr % 2:
     print(-1)
